@@ -1,0 +1,1 @@
+Repository ini berisi source code website portfolio pribadi yang dibuat dengan stack modern berbasis Next.js. Di dalamnya terdapat halaman utama dengan hero section, daftar projek, serta form kontak yang terhubung ke backend sehingga memudahkan orang lain untuk mengenal profil, melihat hasil karya, dan menghubungi saya secara langsung.
