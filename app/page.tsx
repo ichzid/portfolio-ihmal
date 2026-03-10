@@ -71,15 +71,7 @@ export default async function Home() {
                     </Link>
                 </div>
 
-                <div className="hero-scroll">
-                    <span className="bounce">↓</span>
-                    <span className="hero-scroll-text">Scroll to explore</span>
-                </div>
             </section>
-
-
-
-
 
             {/* ── PROJECTS ── */}
             <section id="projects">

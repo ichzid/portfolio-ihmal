@@ -183,7 +183,7 @@ section {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 140px 40px 80px;
+  padding: 140px 40px 60px;
   max-width: 1200px;
   margin: 0 auto;
   position: relative;
@@ -333,7 +333,7 @@ section {
   gap: 16px;
   flex-wrap: wrap;
   animation: fadeUp 0.8s 0.4s ease both;
-  margin-bottom: 60px;
+  margin-bottom: 40px;
 }
 
 .hero-tech-stack {
@@ -408,6 +408,22 @@ section {
   display: inline-block;
   color: var(--accent);
   font-size: 1.2rem;
+}
+
+@media (max-width: 768px) {
+  .hero-actions {
+    margin-bottom: 40px;
+  }
+
+  .hero-scroll {
+    bottom: 20px;
+    right: 20px;
+  }
+
+  .hero-scroll-text {
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+  }
 }
 
 @keyframes bounceY {
@@ -2377,11 +2393,46 @@ section {
   }
 }
 
+/* ── SCROLL TO TOP BUTTON ── */
+.scroll-top-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 8800;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(22, 22, 22, 0.95);
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6);
+  transition: background 0.25s, color 0.25s, transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+}
 
+.scroll-top-btn:hover {
+  background: var(--accent);
+  color: #000;
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 22px 50px rgba(240, 165, 0, 0.45);
+}
 
-/* ── REVEAL ── */
+@media (max-width: 640px) {
+  .scroll-top-btn {
+    bottom: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+  }
+}
+
 .reveal {
   opacity: 0;
+  transform: translateY(28px);
   transform: translateY(28px);
   transition: opacity 0.75s ease, transform 0.75s ease;
 }

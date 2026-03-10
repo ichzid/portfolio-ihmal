@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import { ToastProvider } from '@/components/Toast'
 import Footer from '@/components/Footer'
+import ScrollToTopButton from '@/components/ScrollToTopButton'
 
 export const metadata: Metadata = {
     title: 'Ihmal Al Azid — Fullstack Developer',
@@ -35,6 +36,7 @@ export default function RootLayout({
                 <ToastProvider>
                     {children}
                     <Footer />
+                    <ScrollToTopButton />
                 </ToastProvider>
             </body>
         </html>
