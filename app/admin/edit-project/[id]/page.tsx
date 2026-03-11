@@ -1,15 +1,17 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, use } from 'react'
 import { supabase } from '@/lib/supabaseClient'
 import Navbar from '@/components/Navbar'
 import { useRouter } from 'next/navigation'
 import { useToast } from '@/components/Toast'
 
-export default function AddProject() {
+export default function EditProject(props: { params: Promise<{ id: string }> }) {
+    const params = use(props.params)
     const router = useRouter()
     const { showToast } = useToast()
     const [loading, setLoading] = useState(false)
+    const [initialLoad, setInitialLoad] = useState(true)
     const [formData, setFormData] = useState({
         title: '',
         slug: '',
@@ -28,18 +30,63 @@ export default function AddProject() {
         role: '',
         timeline: '',
         status: 'Live',
+        image_url: '',
+        image_urls: [] as string[]
     })
-    const [imageFiles, setImageFiles] = useState<File[]>([])
-    const [imagePreviews, setImagePreviews] = useState<string[]>([])
+    const [newImageFiles, setNewImageFiles] = useState<File[]>([])
+    const [newImagePreviews, setNewImagePreviews] = useState<string[]>([])
+
+    // Store the original image_urls at load time for deletion comparison
+    const [originalImageUrls, setOriginalImageUrls] = useState<string[]>([])
+
+    useEffect(() => {
+        async function fetchProject() {
+            setInitialLoad(true)
+            const { data, error } = await supabase
+                .from('projects')
+                .select('*')
+                .eq('id', params.id)
+                .single()
+            
+            if (data) {
+                setFormData({
+                    title: data.title || '',
+                    slug: data.slug || '',
+                    category: data.category || 'Web Systems',
+                    description: data.description || '',
+                    long_description: data.long_description || '',
+                    tech_stack: data.tech_stack ? data.tech_stack.join(', ') : '',
+                    challenge: data.challenge || '',
+                    solution: data.solution || '',
+                    impact: data.impact || '',
+                    demo_url: data.demo_url || '',
+                    demo_video_url: data.demo_video_url || '',
+                    github_url: data.github_url || '',
+                    featured: data.featured || false,
+                    year: data.year || '',
+                    role: data.role || '',
+                    timeline: data.timeline || '',
+                    status: data.status || 'Live',
+                    image_url: data.image_url || '',
+                    image_urls: data.image_urls || []
+                })
+                setOriginalImageUrls(data.image_urls || [])
+            } else if (error) {
+                showToast('error', 'Gagal memuat', error.message)
+            }
+            setInitialLoad(false)
+        }
+        fetchProject()
+    }, [params.id, showToast])
 
     const generateSlug = (text: string) => {
         return text
             .toString()
             .toLowerCase()
             .trim()
-            .replace(/\s+/g, '-')       // Replace spaces with -
-            .replace(/[^\w\-]+/g, '')   // Remove all non-word chars
-            .replace(/\-\-+/g, '-');    // Replace multiple - with single -
+            .replace(/\s+/g, '-')
+            .replace(/[^\w\-]+/g, '')
+            .replace(/\-\-+/g, '-');
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -66,19 +113,26 @@ export default function AddProject() {
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
             const files = Array.from(e.target.files)
-            setImageFiles(prev => [...prev, ...files])
+            setNewImageFiles(prev => [...prev, ...files])
             const previews = files.map(f => URL.createObjectURL(f))
-            setImagePreviews(prev => [...prev, ...previews])
+            setNewImagePreviews(prev => [...prev, ...previews])
         }
-        // Reset input value so same file can be selected again
         e.target.value = ''
     }
 
-    const handleRemoveFile = (idx: number) => {
-        setImageFiles(prev => prev.filter((_, i) => i !== idx))
-        setImagePreviews(prev => {
+    const handleRemoveNewImage = (idx: number) => {
+        setNewImageFiles(prev => prev.filter((_, i) => i !== idx))
+        setNewImagePreviews(prev => {
             URL.revokeObjectURL(prev[idx])
             return prev.filter((_, i) => i !== idx)
+        })
+    }
+
+    const handleRemoveExistingImage = (idx: number) => {
+        setFormData(prev => {
+            const newUrls = [...prev.image_urls]
+            newUrls.splice(idx, 1)
+            return { ...prev, image_urls: newUrls }
         })
     }
 
@@ -87,12 +141,25 @@ export default function AddProject() {
         setLoading(true)
 
         try {
-            let uploadedUrls: string[] = []
+            // 0. Delete images that were removed by user
+            const removedUrls = originalImageUrls.filter(u => !formData.image_urls.includes(u))
+            if (removedUrls.length > 0) {
+                const fileNames = removedUrls.map(url => {
+                    // Extract filename from public URL
+                    const parts = url.split('/project-images/')
+                    return parts.length > 1 ? parts[1].split('?')[0] : null
+                }).filter(Boolean) as string[]
+                if (fileNames.length > 0) {
+                    await supabase.storage.from('project-images').remove(fileNames)
+                }
+            }
 
-            // 1. Upload Images if exists
-            if (imageFiles.length > 0) {
-                for (let i = 0; i < imageFiles.length; i++) {
-                    const file = imageFiles[i]
+            let currentImageUrls = [...formData.image_urls]
+
+            // 1. Upload NEW Images
+            if (newImageFiles.length > 0) {
+                for (let i = 0; i < newImageFiles.length; i++) {
+                    const file = newImageFiles[i]
                     const fileExt = file.name.split('.').pop()
                     const fileName = `${formData.slug}-${Date.now()}-${i}.${fileExt}`
                     
@@ -106,51 +173,46 @@ export default function AddProject() {
                         .from('project-images')
                         .getPublicUrl(fileName)
 
-                    uploadedUrls.push(publicUrl)
+                    currentImageUrls.push(publicUrl)
                 }
             }
 
-            // 2. Insert Data
-            const { error: insertError } = await supabase
+            // 2. Update Data
+            const { error: updateError } = await supabase
                 .from('projects')
-                .insert([{
-                    ...formData,
-                    tech_stack: formData.tech_stack.split(',').map((s: string) => s.trim()).filter((s: string) => s),
+                .update({
+                    title: formData.title,
+                    slug: formData.slug,
+                    category: formData.category,
+                    description: formData.description,
+                    long_description: formData.long_description,
+                    tech_stack: formData.tech_stack.split(',').map(s => s.trim()).filter(s => s),
+                    challenge: formData.challenge,
+                    solution: formData.solution,
+                    impact: formData.impact,
                     demo_url: formData.demo_url || null,
                     demo_video_url: formData.demo_video_url || null,
                     github_url: formData.github_url || null,
-                    image_url: uploadedUrls[0] || null,
-                    image_urls: uploadedUrls,
-                }])
+                    featured: formData.featured,
+                    year: formData.year,
+                    role: formData.role,
+                    timeline: formData.timeline,
+                    status: formData.status,
+                    image_url: currentImageUrls[0] || null, // default to first
+                    image_urls: currentImageUrls
+                })
+                .eq('id', params.id)
 
-            if (insertError) throw insertError
+            if (updateError) throw updateError
 
-            showToast('success', 'Project Added', 'Project added successfully! 🎉')
-            setFormData({
-                title: '',
-                slug: '',
-                category: 'Web Systems',
-                description: '',
-                long_description: '',
-                tech_stack: '',
-                challenge: '',
-                solution: '',
-                impact: '',
-                demo_url: '',
-                demo_video_url: '',
-                github_url: '',
-                featured: false,
-                year: '',
-                role: '',
-                timeline: '',
-                status: 'Live',
-            })
-            setImageFiles([])
-            setImagePreviews([])
+            showToast('success', 'Project Updated', 'Project berhasil diperbarui! 🎉')
+            setNewImageFiles([])
+            setNewImagePreviews([])
+            setFormData(prev => ({ ...prev, image_urls: currentImageUrls }))
 
         } catch (error: any) {
             console.error('Error:', error)
-            showToast('error', 'Add Failed', error.message || 'An error occurred while saving the project.')
+            showToast('error', 'Update Failed', error.message || 'An error occurred while updating the project.')
         } finally {
             setLoading(false)
         }
@@ -162,17 +224,28 @@ export default function AddProject() {
         'MySQL', 'MongoDB', 'Supabase', 'Python'
     ]
 
+    if (initialLoad) {
+        return (
+            <>
+                <Navbar />
+                <div className="container" style={{ paddingTop: '160px', textAlign: 'center' }}>
+                    Loading project...
+                </div>
+            </>
+        )
+    }
+
     return (
         <>
             <Navbar />
             <div className="container" style={{ paddingTop: '120px', paddingBottom: '100px' }}>
                 <div className="page-header">
-                    <button type="button" onClick={() => router.back()} className="back-btn">
+                    <button type="button" onClick={() => router.push('/admin/dashboard')} className="back-btn">
                         <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7" /></svg>
                         Back
                     </button>
-                    <h1 className="section-title">Add New Project</h1>
-                    <p className="page-subtitle">Create a polished showcase with stable typography and clean layout.</p>
+                    <h1 className="section-title">Edit Project</h1>
+                    <p className="page-subtitle">Editing: {formData.title}</p>
                 </div>
 
                 <form onSubmit={handleSubmit} className="form-root">
@@ -258,7 +331,19 @@ export default function AddProject() {
                                 />
                             </div>
 
-
+                            <div className="form-group">
+                                <label>Demo URL (live link)</label>
+                                <input type="url" name="demo_url" value={formData.demo_url} onChange={handleChange} className="form-input" placeholder="https://app.example.com" />
+                            </div>
+                            <div className="form-group">
+                                <label>Demo Video URL (YouTube / Loom)</label>
+                                <input type="url" name="demo_video_url" value={formData.demo_video_url} onChange={handleChange} className="form-input" placeholder="https://youtube.com/watch?v=..." />
+                                <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>YouTube or Loom link · will appear as a video embed on the project page</span>
+                            </div>
+                            <div className="form-group">
+                                <label>GitHub URL</label>
+                                <input type="url" name="github_url" value={formData.github_url} onChange={handleChange} className="form-input" placeholder="https://github.com/username/repo" />
+                            </div>
 
                             <div className="form-row">
                                 <div className="form-group">
@@ -288,33 +373,41 @@ export default function AddProject() {
                             </div>
 
                             <div className="form-group">
-                                <label>Demo URL (link live)</label>
-                                <input type="url" name="demo_url" value={formData.demo_url} onChange={handleChange} className="form-input" placeholder="https://app.example.com" />
-                            </div>
-                            <div className="form-group">
-                                <label>Demo Video URL (YouTube / Loom)</label>
-                                <input type="url" name="demo_video_url" value={formData.demo_video_url} onChange={handleChange} className="form-input" placeholder="https://youtube.com/watch?v=..." />
-                                <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>YouTube or Loom link · will appear as a video embed on the project page</span>
-                            </div>
-                            <div className="form-group">
-                                <label>GitHub URL</label>
-                                <input type="url" name="github_url" value={formData.github_url} onChange={handleChange} className="form-input" placeholder="https://github.com/username/repo" />
+                                <label>Existing Images</label>
+                                {formData.image_urls.length > 0 ? (
+                                    <div className="preview-grid">
+                                        {formData.image_urls.map((url, idx) => (
+                                            <div key={idx} className="preview-item">
+                                                <img src={url} alt="Project image" />
+                                                <button 
+                                                    type="button" 
+                                                    className="preview-remove"
+                                                    onClick={() => handleRemoveExistingImage(idx)}
+                                                >
+                                                    &times;
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', margin: '4px 0 8px' }}>No saved images.</p>
+                                )}
                             </div>
 
                             <div className="form-group">
-                                <label>Project Images (select one or more)</label>
+                                <label>Add New Photos</label>
                                 <label className="upload-zone">
                                     <input type="file" multiple onChange={handleFileChange} accept="image/*" style={{ display: 'none' }} />
-                                    <svg width="28" height="28" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" y1="3" x2="12" y2="15" /></svg>
-                                    <span>Click to select photos</span>
+                                    <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" y1="3" x2="12" y2="15" /></svg>
+                                    <span>Click to add photos</span>
                                     <span style={{ fontSize: '0.78rem', opacity: 0.5 }}>PNG, JPG, WEBP · select multiple</span>
                                 </label>
-                                {imagePreviews.length > 0 && (
+                                {newImagePreviews.length > 0 && (
                                     <div className="preview-grid">
-                                        {imagePreviews.map((src, idx) => (
+                                        {newImagePreviews.map((src, idx) => (
                                             <div key={idx} className="preview-item">
-                                                <img src={src} alt={`Preview ${idx + 1}`} />
-                                                <button type="button" className="preview-remove" onClick={() => handleRemoveFile(idx)}>&times;</button>
+                                                <img src={src} alt={`New ${idx + 1}`} />
+                                                <button type="button" className="preview-remove" onClick={() => handleRemoveNewImage(idx)}>&times;</button>
                                             </div>
                                         ))}
                                     </div>
@@ -360,14 +453,17 @@ export default function AddProject() {
                         </div>
                     </div>
 
-                    <div className="form-actions">
+                    <div className="form-actions" style={{ gap: '16px' }}>
+                        <button type="button" onClick={() => router.push('/admin/dashboard')} className="btn btn-outline">
+                            Cancel
+                        </button>
                         <button type="submit" className="btn btn-primary save-btn" disabled={loading}>
                             {loading ? (
                                 <>
                                     <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" style={{ animation: 'spin 0.8s linear infinite' }}>
                                         <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4" />
                                     </svg>
-                                    Saving Project...
+                                    Saving...
                                 </>
                             ) : (
                                 <>
@@ -376,7 +472,7 @@ export default function AddProject() {
                                         <path d="M17 21V8H7v13" />
                                         <path d="M7 3v5h8" />
                                     </svg>
-                                    Save Project
+                                    Save Changes
                                 </>
                             )}
                         </button>
@@ -500,16 +596,14 @@ export default function AddProject() {
                     transition: color 0.2s;
                     font-family: inherit;
                 }
-                .back-btn:hover {
-                    color: var(--accent);
-                }
+                .back-btn:hover { color: var(--accent); }
                 .upload-zone {
                     display: flex;
                     flex-direction: column;
                     align-items: center;
                     justify-content: center;
                     gap: 8px;
-                    padding: 28px 16px;
+                    padding: 24px 16px;
                     border: 2px dashed var(--border);
                     border-radius: 12px;
                     cursor: pointer;
@@ -561,12 +655,9 @@ export default function AddProject() {
                     align-items: center;
                     justify-content: center;
                     font-size: 14px;
-                    line-height: 1;
                     transition: background 0.2s;
                 }
-                .preview-remove:hover {
-                    background: rgba(239,68,68,0.85);
-                }
+                .preview-remove:hover { background: rgba(239,68,68,0.85); }
             `}</style>
         </>
     )

@@ -97,10 +97,10 @@ export default function ProjectsPage() {
                         {visibleProjects.map(project => (
                             <div key={project.id} className="project-grid-card">
                                 <div className="project-grid-visual">
-                                    {project.imageUrl ? (
+                                    {project.imageUrls?.[0] ? (
                                         <div style={{ width: '100%', height: '100%', position: 'relative' }}>
                                             <Image
-                                                src={project.imageUrl}
+                                                src={project.imageUrls[0]}
                                                 alt={project.title}
                                                 fill
                                                 style={{ objectFit: 'cover' }}

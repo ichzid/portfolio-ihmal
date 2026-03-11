@@ -101,8 +101,8 @@ export default async function Home() {
                                     <div className="project-visual">
                                         <div className="project-visual-bg"></div>
                                         <div className="project-mockup-stack" style={{ display: 'flex', alignItems: 'center', justifyItems: 'center', width: '100%', height: '100%', background: 'linear-gradient(135deg, var(--surface) 0%, var(--border) 100%)', color: 'var(--text-muted)' }}>
-                                            {project.imageUrl ? (
-                                                <Image src={project.imageUrl} alt={project.title} fill style={{ objectFit: 'cover', borderRadius: 'inherit' }} />
+                                            {project.imageUrls?.[0] ? (
+                                                <Image src={project.imageUrls[0]} alt={project.title} fill style={{ objectFit: 'cover', borderRadius: 'inherit' }} />
                                             ) : (
                                                 <span style={{ margin: 'auto' }}>No Image Available</span>
                                             )}
@@ -227,8 +227,15 @@ export default async function Home() {
                         <ScrollReveal>
                             <div className="contact-info">
                                 <h3>Contact me directly</h3>
-                                <a href="mailto:ichmal.alazid@gmail.com" className="contact-email">ichmal.alazid@gmail.com</a>
                                 <div className="social-links">
+                                    <a href="mailto:ichmal.alazid@gmail.com" className="social-link" target="_blank" rel="noopener noreferrer">
+                                        <div className="social-icon">
+                                            <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24">
+                                                <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 010 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.910 1.528-1.145C21.69 2.28 24 3.434 24 5.457z" />
+                                            </svg>
+                                        </div>
+                                        Gmail — ichmal.alazid@gmail.com
+                                    </a>
                                     <a href="https://github.com/ichzid" className="social-link" target="_blank" rel="noopener noreferrer">
                                         <div className="social-icon">
                                             <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24">

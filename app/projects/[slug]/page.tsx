@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import { getProjectBySlug, getProjects } from '@/lib/projects'
 import Navbar from '@/components/Navbar'
 import BackButton from '@/components/BackButton'
+import ProjectCarousel from './ProjectCarousel'
 
 // Wajib untuk static export: pre-render semua slug saat build
 export async function generateStaticParams() {
@@ -38,6 +39,30 @@ export default async function ProjectDetail(props: { params: Promise<{ slug: str
         : isInProgress
             ? 'rgba(250,204,21,0.25)'
             : 'var(--border)'
+
+    // Convert YouTube/Loom share URL to embed URL
+    function getEmbedUrl(url: string): string | null {
+        try {
+            const u = new URL(url)
+            // YouTube: youtube.com/watch?v=ID  or  youtu.be/ID
+            if (u.hostname.includes('youtube.com')) {
+                const id = u.searchParams.get('v')
+                return id ? `https://www.youtube.com/embed/${id}?rel=0&modestbranding=1` : null
+            }
+            if (u.hostname === 'youtu.be') {
+                const id = u.pathname.slice(1)
+                return id ? `https://www.youtube.com/embed/${id}?rel=0&modestbranding=1` : null
+            }
+            // Loom: loom.com/share/ID
+            if (u.hostname.includes('loom.com')) {
+                const id = u.pathname.split('/').pop()
+                return id ? `https://www.loom.com/embed/${id}` : null
+            }
+            return null
+        } catch {
+            return null
+        }
+    }
 
     return (
         <>
@@ -114,37 +139,31 @@ export default async function ProjectDetail(props: { params: Promise<{ slug: str
             {/* ── PROJECT IMAGE ── */}
             <div className="project-image-wrap">
                 <div className="project-image-container">
-                    {project.imageUrl && !project.imageUrl.includes('placeholder') ? (
-                        <img src={project.imageUrl} alt={project.title} loading="lazy" />
-                    ) : (
-                        <div className="project-image-placeholder">
-                            <div className="placeholder-grid"></div>
-                            <div className="placeholder-mockup">
-                                <div className="pm-header">
-                                    <div className="pm-dots">
-                                        <div className="pm-dot"></div>
-                                        <div className="pm-dot"></div>
-                                        <div className="pm-dot"></div>
-                                    </div>
-                                    <div className="pm-title-bar"></div>
-                                </div>
-                                <div className="pm-stats">
-                                    <div className="pm-stat"><div className="pm-stat-val"></div><div className="pm-stat-lbl"></div></div>
-                                    <div className="pm-stat"><div className="pm-stat-val"></div><div className="pm-stat-lbl"></div></div>
-                                    <div className="pm-stat"><div className="pm-stat-val"></div><div className="pm-stat-lbl"></div></div>
-                                </div>
-                                <div className="pm-chart">
-                                    <div className="pm-bar" style={{ height: '40%' }}></div>
-                                    <div className="pm-bar" style={{ height: '70%' }}></div>
-                                    <div className="pm-bar" style={{ height: '50%' }}></div>
-                                    <div className="pm-bar" style={{ height: '85%' }}></div>
-                                    <div className="pm-bar" style={{ height: '60%' }}></div>
-                                </div>
-                            </div>
-                        </div>
-                    )}
+                    <ProjectCarousel 
+                        images={project.imageUrls} 
+                        title={project.title} 
+                    />
                 </div>
             </div>
+
+            {/* ── DEMO VIDEO ── */}
+            {project.demoVideoUrl && (() => {
+                const embedUrl = getEmbedUrl(project.demoVideoUrl)
+                return embedUrl ? (
+                    <div className="project-image-wrap" style={{ marginTop: 0 }}>
+                        <div style={{ borderRadius: 'var(--radius-lg)', overflow: 'hidden', border: '1px solid var(--border)', aspectRatio: '16/9', position: 'relative', background: '#000' }}>
+                            <iframe
+                                src={embedUrl}
+                                title={`Demo video: ${project.title}`}
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen
+                                style={{ width: '100%', height: '100%', border: 'none', display: 'block' }}
+                            />
+                        </div>
+                        <p style={{ textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.82rem', marginTop: '10px' }}>📹 Demo Video</p>
+                    </div>
+                ) : null
+            })()}
 
             {/* ── DIVIDER ── */}
             <div className="divider-wrap">
@@ -160,28 +179,28 @@ export default async function ProjectDetail(props: { params: Promise<{ slug: str
 
                         {project.longDescription && (
                             <div className="content-section">
-                                <h2>Tentang Proyek</h2>
+                                <h2>About the Project</h2>
                                 <p>{project.longDescription}</p>
                             </div>
                         )}
 
                         {project.challenge && (
                             <div className="content-section">
-                                <h2>Tantangan</h2>
+                                <h2>Challenge</h2>
                                 <p>{project.challenge}</p>
                             </div>
                         )}
 
                         {project.solution && (
                             <div className="content-section">
-                                <h2>Solusi</h2>
+                                <h2>Solution</h2>
                                 <p>{project.solution}</p>
                             </div>
                         )}
 
                         {project.impact && (
                             <div className="content-section">
-                                <h2>Dampak &amp; Hasil</h2>
+                                <h2>Impact &amp; Outcome</h2>
                                 <div className="impact-highlight">
                                     <span className="impact-icon">📈</span>
                                     <p>{project.impact}</p>
@@ -192,7 +211,7 @@ export default async function ProjectDetail(props: { params: Promise<{ slug: str
                         {project.techStack && project.techStack.length > 0 && (
                             <div className="content-section">
                                 <h2>Tech Stack</h2>
-                                <p style={{ marginBottom: 0 }}>Teknologi dan tools yang digunakan dalam proyek ini:</p>
+                                <p style={{ marginBottom: 0 }}>Technologies and tools used in this project:</p>
                                 <div className="tech-stack">
                                     {project.techStack.map(t => (
                                         <span key={t} className="tech-badge">{t}</span>
@@ -208,10 +227,10 @@ export default async function ProjectDetail(props: { params: Promise<{ slug: str
 
                         {/* Project Info Card */}
                         <div className="sidebar-card">
-                            <div className="sidebar-card-header">Detail Proyek</div>
+                            <div className="sidebar-card-header">Project Details</div>
 
                             <div className="sidebar-info-row">
-                                <span className="info-label">Kategori</span>
+                                <span className="info-label">Category</span>
                                 <span className="info-value">{project.category}</span>
                             </div>
 
@@ -227,7 +246,7 @@ export default async function ProjectDetail(props: { params: Promise<{ slug: str
                             {project.featured && (
                                 <div className="sidebar-info-row">
                                     <span className="info-label">Featured</span>
-                                    <span className="info-value">⭐ Ya — Project Unggulan</span>
+                                    <span className="info-value">⭐ Yes — Highlighted Project</span>
                                 </div>
                             )}
 
@@ -247,7 +266,7 @@ export default async function ProjectDetail(props: { params: Promise<{ slug: str
 
                             {project.year && (
                                 <div className="sidebar-info-row">
-                                    <span className="info-label">Tahun</span>
+                                    <span className="info-label">Year</span>
                                     <span className="info-value muted">{project.year}</span>
                                 </div>
                             )}
@@ -262,7 +281,7 @@ export default async function ProjectDetail(props: { params: Promise<{ slug: str
                                             <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
                                                 <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" />
                                             </svg>
-                                            Lihat Live Demo
+                                            View Live Demo
                                         </a>
                                     )}
                                     {project.githubUrl && (
@@ -274,7 +293,7 @@ export default async function ProjectDetail(props: { params: Promise<{ slug: str
                                         </a>
                                     )}
                                     <a href="/#contact" className="btn btn-outline btn-sm">
-                                        💬 Diskusi Proyek Serupa
+                                        💬 Discuss a Similar Project
                                     </a>
                                 </div>
                             </div>
