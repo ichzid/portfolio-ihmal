@@ -11,6 +11,8 @@ import {
 } from 'react-icons/si'
 import { FaCogs } from 'react-icons/fa'
 
+export const revalidate = 0;
+
 export default async function Home() {
     const featured = await getFeaturedProjects()
 
