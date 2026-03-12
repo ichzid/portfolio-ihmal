@@ -158,8 +158,8 @@ export default function AddProject() {
 
     const commonTechStacks = [
         'React.js', 'Next.js', 'Vue.js', 'TypeScript', 'JavaScript', 'Laravel',
-        'Python', 'Java', 'Node.js', 'Express', 'NestJS', 'Tailwind CSS', 'PostgreSQL', 
-        'MySQL', 'MongoDB', 'Supabase', 'Python'
+        'Python', 'Java', 'Node.js', 'Express', 'NestJS', 'Tailwind CSS', 'PostgreSQL',
+        'MySQL', 'MongoDB', 'Supabase'
     ]
 
     return (
