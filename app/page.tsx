@@ -47,7 +47,7 @@ export default async function Home() {
                 </div>
 
                 <h1 className="hero-name">
-                    aku cinta kamu<br />
+                    Building Digital<br />
                     <span className="outline">Experiences<span className="accent-dot">.</span></span>
                 </h1>
 
