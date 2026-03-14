@@ -1,0 +1,18 @@
+name: Ping Supabase Keep-Alive
+
+on:
+  schedule:
+    # Action ini akan berjalan setiap hari Senin, Rabu, Jumat, & Minggu di jam 00:00 UTC (Pagi hari WIB)
+    - cron: '0 0 * * 0,1,3,5'
+  workflow_dispatch: # Mengizinkan untuk di-run secara manual dari tab Actions di GitHub
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hit Keep-Alive API
+        run: |
+          # Memanggil endpoint API
+          # Kita gunakan -f supaya script gagal jika API error (status code >= 400)
+          curl -f -s "https://ichmal.my.id/api/keep-alive" || exit 1
+          echo "✅ Berhasil ping Supabase"
