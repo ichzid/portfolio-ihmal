@@ -5,34 +5,54 @@ import ScrollReveal from '@/components/ScrollReveal'
 import ContactForm from '@/components/ContactForm'
 import { getFeaturedProjects } from '@/lib/projects'
 import {
-    SiNextdotjs, SiVuedotjs, SiTypescript, SiTailwindcss, SiBootstrap,
-    SiNodedotjs, SiLaravel, SiCodeigniter, SiMysql, SiPostgresql,
-    SiGraphql, SiDocker, SiGit, SiFigma, SiLighthouse
+    SiNextdotjs, SiReact, SiVuedotjs, SiTypescript, SiTailwindcss,
+    SiLaravel, SiCodeigniter, SiMysql, SiPostgresql,
+    SiGraphql, SiOpenai, SiSupabase,
+    SiVercel, SiPrisma, SiGithubactions, SiNodedotjs
 } from 'react-icons/si'
-import { FaCogs } from 'react-icons/fa'
+import { FaCode } from 'react-icons/fa'
 
 export const revalidate = 0;
+
+function N8nIcon() {
+    return (
+        <svg
+            viewBox="0 0 24 24"
+            width="1em"
+            height="1em"
+            fill="currentColor"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            focusable="false"
+            style={{ display: 'block', flexShrink: 0 }}
+        >
+            <path d="M21.4737 5.6842c-1.1772 0-2.1663.8051-2.4468 1.8947h-2.8955c-1.235 0-2.289.893-2.492 2.111l-.1038.623a1.263 1.263 0 0 1-1.246 1.0555H11.289c-.2805-1.0896-1.2696-1.8947-2.4468-1.8947s-2.1663.8051-2.4467 1.8947H4.973c-.2805-1.0896-1.2696-1.8947-2.4468-1.8947C1.1311 9.4737 0 10.6047 0 12s1.131 2.5263 2.5263 2.5263c1.1772 0 2.1663-.8051 2.4468-1.8947h1.4223c.2804 1.0896 1.2696 1.8947 2.4467 1.8947 1.1772 0 2.1663-.8051 2.4468-1.8947h1.0008a1.263 1.263 0 0 1 1.2459 1.0555l.1038.623c.203 1.218 1.257 2.111 2.492 2.111h.3692c.2804 1.0895 1.2696 1.8947 2.4468 1.8947 1.3952 0 2.5263-1.131 2.5263-2.5263s-1.131-2.5263-2.5263-2.5263c-1.1772 0-2.1664.805-2.4468 1.8947h-.3692a1.263 1.263 0 0 1-1.246-1.0555l-.1037-.623A2.52 2.52 0 0 0 13.9607 12a2.52 2.52 0 0 0 .821-1.4794l.1038-.623a1.263 1.263 0 0 1 1.2459-1.0555h2.8955c.2805 1.0896 1.2696 1.8947 2.4468 1.8947 1.3952 0 2.5263-1.131 2.5263-2.5263s-1.131-2.5263-2.5263-2.5263m0 1.2632a1.263 1.263 0 0 1 1.2631 1.2631 1.263 1.263 0 0 1-1.2631 1.2632 1.263 1.263 0 0 1-1.2632-1.2632 1.263 1.263 0 0 1 1.2632-1.2631M2.5263 10.7368A1.263 1.263 0 0 1 3.7895 12a1.263 1.263 0 0 1-1.2632 1.2632A1.263 1.263 0 0 1 1.2632 12a1.263 1.263 0 0 1 1.2631-1.2632m6.3158 0A1.263 1.263 0 0 1 10.1053 12a1.263 1.263 0 0 1-1.2632 1.2632A1.263 1.263 0 0 1 7.579 12a1.263 1.263 0 0 1 1.2632-1.2632m10.1053 3.7895a1.263 1.263 0 0 1 1.2631 1.2632 1.263 1.263 0 0 1-1.2631 1.2631 1.263 1.263 0 0 1-1.2632-1.2631 1.263 1.263 0 0 1 1.2632-1.2632" />
+        </svg>
+    )
+}
 
 export default async function Home() {
     const featured = await getFeaturedProjects()
 
     const skills = [
-        { name: 'React / Next.js', icon: <SiNextdotjs /> },
-        { name: 'Vue.js', icon: <SiVuedotjs /> },
-        { name: 'TypeScript', icon: <SiTypescript /> },
-        { name: 'Tailwind CSS', icon: <SiTailwindcss /> },
-        { name: 'Bootstrap', icon: <SiBootstrap /> },
-        { name: 'Node.js', icon: <SiNodedotjs /> },
-        { name: 'Laravel', icon: <SiLaravel /> },
-        { name: 'CodeIgniter', icon: <SiCodeigniter /> },
-        { name: 'MySQL', icon: <SiMysql /> },
-        { name: 'PostgreSQL', icon: <SiPostgresql /> },
-        { name: 'REST & GraphQL', icon: <SiGraphql /> },
-        { name: 'Docker', icon: <SiDocker /> },
-        { name: 'Git & CI/CD', icon: <SiGit /> },
-        { name: 'n8n Automation', icon: <FaCogs /> },
-        { name: 'Figma', icon: <SiFigma /> },
-        { name: 'Web Performance', icon: <SiLighthouse /> },
+        { name: 'React.js', icon: <SiReact />, color: '#61DAFB' },
+        { name: 'Next.js', icon: <SiNextdotjs />, color: '#8BD3FF' },
+        { name: 'Vue.js', icon: <SiVuedotjs />, color: '#42B883' },
+        { name: 'TypeScript', icon: <SiTypescript />, color: '#3178C6' },
+        { name: 'Tailwind', icon: <SiTailwindcss />, color: '#38BDF8' },
+        { name: 'Node.js', icon: <SiNodedotjs />, color: '#83CD29' },
+        { name: 'Laravel', icon: <SiLaravel />, color: '#FF2D20' },
+        { name: 'CodeIgniter', icon: <SiCodeigniter />, color: '#EF4223' },
+        { name: 'MySQL', icon: <SiMysql />, color: '#4479A1' },
+        { name: 'PostgreSQL', icon: <SiPostgresql />, color: '#336791' },
+        { name: 'Supabase', icon: <SiSupabase />, color: '#3ECF8E' },
+        { name: 'Prisma ORM', icon: <SiPrisma />, color: '#A7B1C2' },
+        { name: 'REST API', icon: <FaCode />, color: '#60A5FA' },
+        { name: 'GraphQL', icon: <SiGraphql />, color: '#E10098' },
+        { name: 'CI/CD', icon: <SiGithubactions />, color: '#2088FF' },
+        { name: 'Vercel / VPS', icon: <SiVercel />, color: '#F5F5F5' },
+        { name: 'AI / LLM', icon: <SiOpenai />, color: '#10A37F' },
+        { name: 'n8n', icon: <N8nIcon />, color: '#EA4B71' },
     ]
 
     return (
@@ -51,7 +71,7 @@ export default async function Home() {
                     <span className="outline">Experiences<span className="accent-dot">.</span></span>
                 </h1>
 
-                <p className="hero-headline">Fullstack Developer &mdash; From complexity to intuitive interfaces and reliable systems.</p>
+                <p className="hero-headline">Full Stack Developer &mdash; From complexity to intuitive interfaces and reliable systems.</p>
 
                 <p className="hero-sub">
                     With over 4 years of experience, I specialize in crafting modern web applications. My focus is on high performance, clean code, and solutions that drive business growth.
@@ -143,7 +163,7 @@ export default async function Home() {
                                     </svg>
                                     View All Projects
                                 </Link>
-                                <a href="https://github.com/ihmal-alazid" className="btn btn-outline" target="_blank" rel="noopener noreferrer">
+                                <a href="https://github.com/ichzid" className="btn btn-outline" target="_blank" rel="noopener noreferrer">
                                     <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24">
                                         <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.1.82-.26.82-.58v-2.03c-3.34.72-4.04-1.6-4.04-1.6-.54-1.38-1.33-1.75-1.33-1.75-1.08-.74.08-.72.08-.72 1.2.08 1.83 1.23 1.83 1.23 1.06 1.82 2.8 1.3 3.48.99.1-.77.41-1.3.75-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 013-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.82.58C20.56 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z" />
                                     </svg>
@@ -182,7 +202,7 @@ export default async function Home() {
                                     Business Value-Oriented<br /><em>Software Engineering</em>
                                 </h2>
                                 <p className="about-bio">
-                                    Hello, I'm <strong>Ihmal Al Azid</strong>. As a Fullstack Developer with over 4 years of experience, I am dedicated to designing web applications that combine the aesthetics of an intuitive interface with a robust backend architecture.
+                                    Hello, I&apos;m <strong>Ihmal Al Azid</strong>. As a Fullstack Developer with over 4 years of experience, I am dedicated to designing web applications that combine the aesthetics of an intuitive interface with a robust backend architecture.
                                     <br /><br />
                                     My main focus is on creating solutions that align with client business objectives. For me, technical excellence is not about code complexity, but about smart, efficient, and maintainable integration. My commitment is to ensure that every project delivers real impact and functional sustainability for users.
                                 </p>
@@ -190,7 +210,9 @@ export default async function Home() {
                                 <div className="skills-grid">
                                     {skills.map(skill => (
                                         <span key={skill.name} className="skill-tag">
-                                            <span style={{ fontSize: '1.1em', opacity: 0.8 }}>{skill.icon}</span>
+                                            <span style={{ fontSize: '1.1em', color: skill.color, display: 'inline-flex', opacity: 0.95 }}>
+                                                {skill.icon}
+                                            </span>
                                             {skill.name}
                                         </span>
                                     ))}
@@ -220,13 +242,16 @@ export default async function Home() {
                         <div className="contact-header">
                             <span className="section-tag">Get in Touch</span>
                             <h2 className="section-title">Let's Discuss <em>Collaboration Opportunities</em></h2>
-                            <p className="section-desc">I am always open to discussing various technical solutions and potential professional collaborations. Please leave your business narrative, and I will respond within 24-48 business hours.</p>
+                            <p className="section-desc">I am open to discussing web platforms, backend systems, and AI automation initiatives. Share your business context or technical challenge, and I will respond within 24-48 business hours.</p>
                         </div>
                     </ScrollReveal>
                     <div className="contact-grid">
                         <ScrollReveal>
                             <div className="contact-info">
                                 <h3>Contact me directly</h3>
+                                <p className="section-desc" style={{ marginTop: '12px', marginBottom: '28px' }}>
+                                    Palmerah, West Jakarta, Indonesia
+                                </p>
                                 <div className="social-links">
                                     <a href="mailto:ichmal.alazid@gmail.com" className="social-link" target="_blank" rel="noopener noreferrer">
                                         <div className="social-icon">
@@ -235,6 +260,15 @@ export default async function Home() {
                                             </svg>
                                         </div>
                                         Gmail — ichmal.alazid@gmail.com
+                                    </a>
+                                    <a href="https://ichmal.my.id" className="social-link" target="_blank" rel="noopener noreferrer">
+                                        <div className="social-icon">
+                                            <svg width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                                <circle cx="12" cy="12" r="9" />
+                                                <path d="M3 12h18M12 3a15 15 0 010 18M12 3a15 15 0 000 18" />
+                                            </svg>
+                                        </div>
+                                        Website - ichmal.my.id
                                     </a>
                                     <a href="https://github.com/ichzid" className="social-link" target="_blank" rel="noopener noreferrer">
                                         <div className="social-icon">

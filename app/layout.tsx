@@ -5,17 +5,20 @@ import Footer from '@/components/Footer'
 import ScrollToTopButton from '@/components/ScrollToTopButton'
 
 export const metadata: Metadata = {
-    title: 'Ihmal Al Azid — Fullstack Developer',
-    description: 'Ihmal Al Azid — Fullstack Developer Indonesia. Membangun produk digital yang scalable, performant, dan berdampak nyata. Spesialis React, Next.js, Node.js, dan TypeScript.',
-    keywords: ['Fullstack Developer', 'React', 'Next.js', 'Node.js', 'TypeScript', 'Indonesia', 'Portfolio', 'Web Developer'],
+    metadataBase: new URL('https://ichmal.my.id'),
+    title: 'Ihmal Al Azid | Full Stack Developer & AI Automation Engineer',
+    description: 'Ihmal Al Azid is a Full Stack Developer and AI Automation Engineer based in West Jakarta, Indonesia, focused on backend architecture, REST API design, database optimization, and practical AI workflows with n8n, OpenAI, Gemini, and RAG.',
+    keywords: ['Ihmal Al Azid', 'Full Stack Developer', 'AI Automation Engineer', 'Laravel', 'Next.js', 'Vue.js', 'TypeScript', 'n8n', 'RAG', 'Indonesia'],
     authors: [{ name: 'Ihmal Al Azid' }],
     icons: {
         icon: '/favicon.png',
         apple: '/favicon.png',
     },
     openGraph: {
-        title: 'Ihmal Al Azid — Fullstack Developer',
-        description: 'Membangun produk digital yang scalable, performant, dan berdampak nyata.',
+        title: 'Ihmal Al Azid | Full Stack Developer & AI Automation Engineer',
+        description: 'Building scalable web applications, backend systems, and business-focused AI automation workflows from West Jakarta, Indonesia.',
+        url: 'https://ichmal.my.id',
+        siteName: 'Ihmal Al Azid Portfolio',
         type: 'website',
     }
 }

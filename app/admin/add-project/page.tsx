@@ -158,7 +158,7 @@ export default function AddProject() {
 
     const commonTechStacks = [
         'React.js', 'Next.js', 'Vue.js', 'TypeScript', 'JavaScript', 'Laravel',
-        'Python', 'Java', 'Node.js', 'Express', 'NestJS', 'Tailwind CSS', 'PostgreSQL',
+        'Python', 'Java', 'Node.js', 'Express', 'NestJS', 'Tailwind', 'PostgreSQL',
         'MySQL', 'MongoDB', 'Supabase'
     ]
 
@@ -267,7 +267,7 @@ export default function AddProject() {
                                 </div>
                                 <div className="form-group">
                                     <label>Role</label>
-                                    <input type="text" name="role" value={formData.role} onChange={handleChange} className="form-input" placeholder="Fullstack Developer" />
+                                    <input type="text" name="role" value={formData.role} onChange={handleChange} className="form-input" placeholder="Full Stack Developer" />
                                 </div>
                             </div>
 
