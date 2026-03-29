@@ -7,6 +7,7 @@ import { getProjects, Project } from '@/lib/projects'
 import Image from 'next/image'
 
 import BackButton from '@/components/BackButton'
+import SiteLoader from '@/components/SiteLoader'
 
 const ITEMS_PER_PAGE = 6
 
@@ -87,11 +88,7 @@ export default function ProjectsPage() {
 
                 {/* ── GRID ── */}
                 {loading ? (
-                    <div style={{ textAlign: 'center', padding: '60px', color: 'var(--accent)' }}>
-                        <svg width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" style={{ animation: 'spin 1s linear infinite' }}>
-                            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4" />
-                        </svg>
-                    </div>
+                    <SiteLoader label="Loading projects" />
                 ) : (
                     <div className="projects-grid">
                         {visibleProjects.map(project => (

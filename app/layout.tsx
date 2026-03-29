@@ -3,6 +3,7 @@ import './globals.css'
 import { ToastProvider } from '@/components/Toast'
 import Footer from '@/components/Footer'
 import ScrollToTopButton from '@/components/ScrollToTopButton'
+import NavigationFeedback from '@/components/NavigationFeedback'
 
 export const metadata: Metadata = {
     metadataBase: new URL('https://ichmal.my.id'),
@@ -37,6 +38,7 @@ export default function RootLayout({
             </head>
             <body>
                 <ToastProvider>
+                    <NavigationFeedback />
                     {children}
                     <Footer />
                     <ScrollToTopButton />

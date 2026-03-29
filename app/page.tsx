@@ -33,7 +33,7 @@ function N8nIcon() {
 
 export default async function Home() {
     const featured = await getFeaturedProjects()
-    const cvDownloadUrl = 'https://drive.google.com/uc?export=download&id=1L62ZRHTw8DXKh0cxXZMuNF6eudSAbToD'
+    const cvDownloadUrl = 'https://drive.google.com/uc?export=download&id=1q5AmB0tKdpwczGMd0vBjrmswE3EhvgUx'
 
     const skills = [
         { name: 'React.js', icon: <SiReact /> },
