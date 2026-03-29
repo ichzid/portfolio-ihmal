@@ -11,8 +11,9 @@ export const metadata: Metadata = {
     keywords: ['Ihmal Al Azid', 'Full Stack Developer', 'AI Automation Engineer', 'Laravel', 'Next.js', 'Vue.js', 'TypeScript', 'n8n', 'RAG', 'Indonesia'],
     authors: [{ name: 'Ihmal Al Azid' }],
     icons: {
-        icon: '/favicon.png',
-        apple: '/favicon.png',
+        icon: '/favicon.svg',
+        shortcut: '/favicon.svg',
+        apple: '/favicon.svg',
     },
     openGraph: {
         title: 'Ihmal Al Azid | Full Stack Developer & AI Automation Engineer',
@@ -31,7 +32,6 @@ export default function RootLayout({
     return (
         <html lang="id">
             <head>
-                <link rel="icon" href="/favicon.png" />
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
             </head>

@@ -280,7 +280,7 @@ section {
 .hero-name {
   font-family: 'Syne', sans-serif;
   font-weight: 800;
-  font-size: clamp(3.5rem, 9.5vw, 7.5rem);
+  font-size: clamp(3.15rem, 8.6vw, 6.8rem);
   line-height: 0.95;
   letter-spacing: -0.04em;
   margin-bottom: 28px;
@@ -293,6 +293,7 @@ section {
 
 .hero-name .outline {
   display: block;
+  font-size: 0.9em;
   color: transparent;
   -webkit-text-stroke: 1px rgba(255, 255, 255, 0.2);
   -webkit-text-fill-color: transparent;
@@ -729,14 +730,14 @@ section {
   line-height: 1.7;
 }
 
-.tech-stack {
+.project-content .tech-stack {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   margin-top: 10px;
 }
 
-.tech-badge {
+.project-content .tech-badge {
   background: transparent;
   border: 1px solid rgba(255, 255, 255, 0.1);
   color: var(--text-dim);
@@ -748,7 +749,7 @@ section {
   transition: all 0.3s;
 }
 
-.tech-badge:hover {
+.project-content .tech-badge:hover {
   border-color: var(--accent);
   color: var(--text);
   background: rgba(240, 165, 0, 0.05);
@@ -1024,55 +1025,6 @@ section {
   border-color: var(--accent);
   color: var(--text);
   transform: translateY(-2px);
-}
-
-.about-interests {
-  padding-top: 0;
-  border-top: none;
-}
-
-.about-interests h4 {
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-dim);
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.about-interests h4::after {
-  content: '';
-  height: 1px;
-  background: rgba(255, 255, 255, 0.1);
-  flex: 1;
-}
-
-.interests-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.interest-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--text-muted);
-  font-size: 0.9rem;
-  background: transparent;
-  padding: 8px 18px;
-  border-radius: 40px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  transition: all 0.3s;
-}
-
-.interest-item:hover {
-  border-color: rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.03);
-  color: var(--text);
 }
 
 /* ── TESTIMONIALS ── */
@@ -2782,11 +2734,11 @@ section {
   }
 
   .hero-name {
-    font-size: 13vw;
+    font-size: 11.5vw;
   }
 
   .hero-name .outline {
-    font-size: 10vw;
+    font-size: 8.9vw;
     line-height: 1;
   }
 }

@@ -33,26 +33,27 @@ function N8nIcon() {
 
 export default async function Home() {
     const featured = await getFeaturedProjects()
+    const cvDownloadUrl = 'https://drive.google.com/uc?export=download&id=1L62ZRHTw8DXKh0cxXZMuNF6eudSAbToD'
 
     const skills = [
-        { name: 'React.js', icon: <SiReact />, color: '#61DAFB' },
-        { name: 'Next.js', icon: <SiNextdotjs />, color: '#8BD3FF' },
-        { name: 'Vue.js', icon: <SiVuedotjs />, color: '#42B883' },
-        { name: 'TypeScript', icon: <SiTypescript />, color: '#3178C6' },
-        { name: 'Tailwind', icon: <SiTailwindcss />, color: '#38BDF8' },
-        { name: 'Node.js', icon: <SiNodedotjs />, color: '#83CD29' },
-        { name: 'Laravel', icon: <SiLaravel />, color: '#FF2D20' },
-        { name: 'CodeIgniter', icon: <SiCodeigniter />, color: '#EF4223' },
-        { name: 'MySQL', icon: <SiMysql />, color: '#4479A1' },
-        { name: 'PostgreSQL', icon: <SiPostgresql />, color: '#336791' },
-        { name: 'Supabase', icon: <SiSupabase />, color: '#3ECF8E' },
-        { name: 'Prisma ORM', icon: <SiPrisma />, color: '#A7B1C2' },
-        { name: 'REST API', icon: <FaCode />, color: '#60A5FA' },
-        { name: 'GraphQL', icon: <SiGraphql />, color: '#E10098' },
-        { name: 'CI/CD', icon: <SiGithubactions />, color: '#2088FF' },
-        { name: 'Vercel / VPS', icon: <SiVercel />, color: '#F5F5F5' },
-        { name: 'AI / LLM', icon: <SiOpenai />, color: '#10A37F' },
-        { name: 'n8n', icon: <N8nIcon />, color: '#EA4B71' },
+        { name: 'React.js', icon: <SiReact /> },
+        { name: 'Next.js', icon: <SiNextdotjs /> },
+        { name: 'Vue.js', icon: <SiVuedotjs /> },
+        { name: 'TypeScript', icon: <SiTypescript /> },
+        { name: 'Tailwind', icon: <SiTailwindcss /> },
+        { name: 'Node.js', icon: <SiNodedotjs /> },
+        { name: 'Laravel', icon: <SiLaravel /> },
+        { name: 'CodeIgniter', icon: <SiCodeigniter /> },
+        { name: 'MySQL', icon: <SiMysql /> },
+        { name: 'PostgreSQL', icon: <SiPostgresql /> },
+        { name: 'Supabase', icon: <SiSupabase /> },
+        { name: 'Prisma ORM', icon: <SiPrisma /> },
+        { name: 'REST API', icon: <FaCode /> },
+        { name: 'GraphQL', icon: <SiGraphql /> },
+        { name: 'CI/CD', icon: <SiGithubactions /> },
+        { name: 'Vercel / VPS', icon: <SiVercel /> },
+        { name: 'AI / LLM', icon: <SiOpenai /> },
+        { name: 'n8n', icon: <N8nIcon /> },
     ]
 
     return (
@@ -85,12 +86,19 @@ export default async function Home() {
                         </svg>
                         View Portfolio
                     </Link>
-                    <Link href="#contact" className="btn btn-outline">
-                        Discuss an Idea
-                        <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" style={{ marginLeft: '4px' }}>
-                            <path d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    <a
+                        href={cvDownloadUrl}
+                        className="btn btn-ghost"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                            <path d="M12 3v12" />
+                            <path d="M7 10l5 5 5-5" />
+                            <path d="M5 21h14" />
                         </svg>
-                    </Link>
+                        Download CV
+                    </a>
                 </div>
 
             </section>
@@ -210,20 +218,12 @@ export default async function Home() {
                                 <div className="skills-grid">
                                     {skills.map(skill => (
                                         <span key={skill.name} className="skill-tag">
-                                            <span style={{ fontSize: '1.1em', color: skill.color, display: 'inline-flex', opacity: 0.95 }}>
+                                            <span style={{ fontSize: '1.1em', color: 'currentColor', display: 'inline-flex', opacity: 0.95 }}>
                                                 {skill.icon}
                                             </span>
                                             {skill.name}
                                         </span>
                                     ))}
-                                </div>
-                                <div className="about-interests">
-                                    <h4>Beyond coding</h4>
-                                    <div className="interests-list">
-                                        {['✈️ Traveling', '⚽ Football', '☕ Coffee', '🏔️ Hiking', '🎵 Music'].map(i => (
-                                            <span key={i} className="interest-item">{i}</span>
-                                        ))}
-                                    </div>
                                 </div>
                             </div>
                         </ScrollReveal>
@@ -249,9 +249,6 @@ export default async function Home() {
                         <ScrollReveal>
                             <div className="contact-info">
                                 <h3>Contact me directly</h3>
-                                <p className="section-desc" style={{ marginTop: '12px', marginBottom: '28px' }}>
-                                    Palmerah, West Jakarta, Indonesia
-                                </p>
                                 <div className="social-links">
                                     <a href="mailto:ichmal.alazid@gmail.com" className="social-link" target="_blank" rel="noopener noreferrer">
                                         <div className="social-icon">
@@ -260,15 +257,6 @@ export default async function Home() {
                                             </svg>
                                         </div>
                                         Gmail — ichmal.alazid@gmail.com
-                                    </a>
-                                    <a href="https://ichmal.my.id" className="social-link" target="_blank" rel="noopener noreferrer">
-                                        <div className="social-icon">
-                                            <svg width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                                                <circle cx="12" cy="12" r="9" />
-                                                <path d="M3 12h18M12 3a15 15 0 010 18M12 3a15 15 0 000 18" />
-                                            </svg>
-                                        </div>
-                                        Website - ichmal.my.id
                                     </a>
                                     <a href="https://github.com/ichzid" className="social-link" target="_blank" rel="noopener noreferrer">
                                         <div className="social-icon">

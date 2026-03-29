@@ -12,7 +12,6 @@ const Footer = () => {
             </Link>
             <p className="footer-tagline">
               Full Stack Developer and AI Automation Engineer.
-              <br />Based in Palmerah, West Jakarta, working worldwide.
             </p>
             <div className="footer-social">
               <a href="mailto:ichmal.alazid@gmail.com" aria-label="Gmail">
@@ -54,7 +53,6 @@ const Footer = () => {
           <div className="footer-links">
             <h4>Connect</h4>
             <ul>
-              <li><a href="https://ichmal.my.id" className="footer-email" target="_blank" rel="noopener noreferrer">ichmal.my.id</a></li>
               <li><a href="mailto:ichmal.alazid@gmail.com" className="footer-email">ichmal.alazid@gmail.com</a></li>
             </ul>
           </div>
