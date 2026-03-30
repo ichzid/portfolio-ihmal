@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { Suspense } from 'react'
 import './globals.css'
 import { ToastProvider } from '@/components/Toast'
 import Footer from '@/components/Footer'
@@ -38,7 +39,9 @@ export default function RootLayout({
             </head>
             <body>
                 <ToastProvider>
-                    <NavigationFeedback />
+                    <Suspense fallback={null}>
+                        <NavigationFeedback />
+                    </Suspense>
                     {children}
                     <Footer />
                     <ScrollToTopButton />
