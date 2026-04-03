@@ -12,7 +12,8 @@ import {
 } from 'react-icons/si'
 import { FaCode } from 'react-icons/fa'
 
-export const revalidate = 0;
+// Revalidate every 1 hour — reduces document latency by serving cached page
+export const revalidate = 3600;
 
 function N8nIcon() {
     return (
@@ -193,7 +194,7 @@ export default async function Home() {
                             <div className="about-photo-wrap">
                                 <div className="about-photo">
                                     <Image
-                                        src="/images/profile.jpg"
+                                        src="/images/profile.webp"
                                         alt="Ihmal Al Azid"
                                         fill
                                         sizes="(max-width: 768px) 100vw, 320px"
