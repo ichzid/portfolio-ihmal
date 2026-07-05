@@ -1,5 +1,5 @@
 import SiteLoader from '@/components/SiteLoader'
 
 export default function Loading() {
-    return <SiteLoader fullscreen label="Loading page" />
+    return <SiteLoader fullscreen label="Loading" />
 }

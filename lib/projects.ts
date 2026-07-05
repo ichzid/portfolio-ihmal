@@ -1,33 +1,14 @@
-import { supabase } from '@/lib/supabaseClient'
+import 'server-only'
+import { cache } from 'react'
+import { prisma } from '@/lib/prisma'
+import type { Project as PrismaProject } from '@prisma/client'
+import type { Project } from '@/lib/project-types'
 
-export interface Project {
-    id: string
-    title: string
-    slug: string
-    category: string
-    description: string
-    longDescription?: string
-    techStack: string[]
-    challenge: string
-    solution: string
-    impact: string
-    demoUrl?: string
-    demoVideoUrl?: string
-    githubUrl?: string
-    featured: boolean
-    imageUrls: string[]   // single source of truth for all images
-    year?: string
-    role?: string
-    timeline?: string
-    status?: string
-}
+export type { Project } from '@/lib/project-types'
 
-function mapProject(p: any): Project {
-    // Build imageUrls: prefer image_urls array, fallback to image_url if array empty
-    let imageUrls: string[] = p.image_urls ?? []
-    if (imageUrls.length === 0 && p.image_url) {
-        imageUrls = [p.image_url]
-    }
+function mapProject(p: PrismaProject): Project {
+    const techStack = Array.isArray(p.techStack) ? (p.techStack as string[]) : []
+    const imageUrls = Array.isArray(p.imageUrls) ? (p.imageUrls as string[]) : []
 
     return {
         id: p.id,
@@ -35,66 +16,58 @@ function mapProject(p: any): Project {
         slug: p.slug,
         category: p.category,
         description: p.description,
-        longDescription: p.long_description,
-        techStack: p.tech_stack || [],
-        challenge: p.challenge,
-        solution: p.solution,
-        impact: p.impact,
-        demoUrl: p.demo_url,
-        demoVideoUrl: p.demo_video_url,
-        githubUrl: p.github_url,
+        longDescription: p.longDescription ?? undefined,
+        techStack,
+        challenge: p.challenge ?? '',
+        solution: p.solution ?? '',
+        impact: p.impact ?? '',
+        demoUrl: p.demoUrl ?? undefined,
+        demoVideoUrl: p.demoVideoUrl ?? undefined,
+        githubUrl: p.githubUrl ?? undefined,
         featured: p.featured,
         imageUrls,
-        year: p.year,
-        role: p.role,
-        timeline: p.timeline,
-        status: p.status,
+        year: p.year ?? undefined,
+        role: p.role ?? undefined,
+        timeline: p.timeline ?? undefined,
+        status: p.status ?? undefined,
     }
 }
 
-export async function getProjects(): Promise<Project[]> {
-    const { data, error } = await supabase
-        .from('projects')
-        .select('*')
-        .order('created_at', { ascending: false })
-
-    if (error) {
+export const getProjects = cache(async (): Promise<Project[]> => {
+    try {
+        const data = await prisma.project.findMany({
+            orderBy: { createdAt: 'desc' },
+        })
+        return data.map(mapProject)
+    } catch (error) {
         console.error('Error fetching projects:', error)
         return []
     }
+})
 
-    return data.map(mapProject)
-}
-
-export async function getFeaturedProjects(): Promise<Project[]> {
-    const { data, error } = await supabase
-        .from('projects')
-        .select('*')
-        .eq('featured', true)
-        .order('created_at', { ascending: false })
-        .limit(3)
-
-    if (error) {
+export const getFeaturedProjects = cache(async (): Promise<Project[]> => {
+    try {
+        const data = await prisma.project.findMany({
+            where: { featured: true },
+            orderBy: { createdAt: 'desc' },
+            take: 3,
+        })
+        return data.map(mapProject)
+    } catch (error) {
         console.error('Error fetching featured projects:', error)
         return []
     }
+})
 
-    return data.map(mapProject)
-}
-
-export async function getProjectBySlug(slug: string): Promise<Project | null> {
-    const { data, error } = await supabase
-        .from('projects')
-        .select('*')
-        .eq('slug', slug)
-        .single()
-
-    if (error) {
+export const getProjectBySlug = cache(async (slug: string): Promise<Project | null> => {
+    try {
+        const data = await prisma.project.findUnique({
+            where: { slug },
+        })
+        if (!data) return null
+        return mapProject(data)
+    } catch (error) {
         console.error('Error fetching project by slug:', error)
         return null
     }
-
-    if (!data) return null
-
-    return mapProject(data)
-}
+})

@@ -1,24 +1,23 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { getSessionFromRequest } from '@/lib/auth'
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl
 
-    // Lindungi semua route di dalam /admin KECUALI /admin/login
-    if (pathname.startsWith('/admin') && !pathname.startsWith('/admin/login')) {
-        const token = request.cookies.get('admin_token')?.value
-
-        // Verifikasi token sederhana
-        if (token !== 'authenticated') {
-            return NextResponse.redirect(new URL('/admin/login', request.url))
+    if (pathname.startsWith('/admin/login')) {
+        const session = await getSessionFromRequest(request)
+        if (session) {
+            return NextResponse.redirect(new URL('/admin/dashboard', request.url))
         }
+        return NextResponse.next()
     }
 
-    // Jika sudah login dan mencoba ke halaman login, redirect ke dashboard
-    if (pathname.startsWith('/admin/login')) {
-        const token = request.cookies.get('admin_token')?.value
-        if (token === 'authenticated') {
-            return NextResponse.redirect(new URL('/admin/dashboard', request.url))
+    if (pathname.startsWith('/admin')) {
+        const session = await getSessionFromRequest(request)
+        if (!session) {
+            const loginUrl = new URL('/admin/login', request.url)
+            return NextResponse.redirect(loginUrl)
         }
     }
 

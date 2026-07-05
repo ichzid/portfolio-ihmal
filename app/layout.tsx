@@ -1,10 +1,27 @@
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
+import { Syne, DM_Sans } from 'next/font/google'
 import './globals.css'
 import { ToastProvider } from '@/components/Toast'
 import Footer from '@/components/Footer'
 import ScrollToTopButton from '@/components/ScrollToTopButton'
 import NavigationFeedback from '@/components/NavigationFeedback'
+
+// Self-hosted, preloaded, dan swap otomatis — hilangkan render-blocking
+const syne = Syne({
+    subsets: ['latin'],
+    weight: ['400', '600', '700', '800'],
+    variable: '--font-syne',
+    display: 'swap',
+})
+
+const dmSans = DM_Sans({
+    subsets: ['latin'],
+    weight: ['300', '400', '500'],
+    style: ['normal', 'italic'],
+    variable: '--font-dm-sans',
+    display: 'swap',
+})
 
 export const metadata: Metadata = {
     metadataBase: new URL('https://ichmal.my.id'),
@@ -32,28 +49,8 @@ export default function RootLayout({
     children: React.ReactNode
 }) {
     return (
-        <html lang="id">
-            <head>
-                {/* Preconnect to font origins for faster DNS resolution */}
-                <link rel="preconnect" href="https://fonts.googleapis.com" />
-                <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-                {/* Load fonts non-blocking: loads as print, swap to all when ready */}
-                <link
-                    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap"
-                    rel="stylesheet"
-                    media="print"
-                    // @ts-ignore
-                    onLoad="this.media='all'"
-                />
-                {/* Noscript fallback */}
-                <noscript>
-                    <link
-                        href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap"
-                        rel="stylesheet"
-                    />
-                </noscript>
-            </head>
-            <body>
+        <html lang="id" className={`${syne.variable} ${dmSans.variable}`} data-scroll-behavior="smooth" suppressHydrationWarning>
+            <body suppressHydrationWarning>
                 <ToastProvider>
                     <Suspense fallback={null}>
                         <NavigationFeedback />

@@ -1,4 +1,15 @@
+.env
 .env.local
+.env*.local
 node_modules/
 .next/
 out/
+
+# Uploaded images — jangan commit ke git
+/public/uploads/*
+!/public/uploads/.gitkeep
+!/public/uploads/projects/.gitkeep
+
+# Prisma
+prisma/*.db
+prisma/*.db-journal

@@ -1,13 +1,58 @@
+import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getProjectBySlug, getProjects } from '@/lib/projects'
 import Navbar from '@/components/Navbar'
 import BackButton from '@/components/BackButton'
 import ProjectCarousel from './ProjectCarousel'
 
-// Wajib untuk static export: pre-render semua slug saat build
+// Regenerate setiap 1 jam agar edit dari /admin cepat tercermin
+export const revalidate = 3600
+
+// Pre-render semua slug saat build untuk performa optimal (SSG)
 export async function generateStaticParams() {
     const projects = await getProjects()
     return projects.map((p) => ({ slug: p.slug }))
+}
+
+// SEO & social preview per project
+export async function generateMetadata(
+    props: { params: Promise<{ slug: string }> }
+): Promise<Metadata> {
+    const { slug } = await props.params
+    const project = await getProjectBySlug(slug)
+
+    if (!project) {
+        return {
+            title: 'Project Not Found | Ihmal Al Azid',
+            description: 'The requested project could not be found.',
+        }
+    }
+
+    const title = `${project.title} | Ihmal Al Azid`
+    const description = project.description
+    const image = project.imageUrls?.[0]
+    const url = `https://ichmal.my.id/projects/${project.slug}`
+
+    return {
+        title,
+        description,
+        keywords: [project.category, ...project.techStack, 'Ihmal Al Azid', 'Portfolio'],
+        alternates: { canonical: url },
+        openGraph: {
+            title,
+            description,
+            url,
+            type: 'article',
+            siteName: 'Ihmal Al Azid Portfolio',
+            images: image ? [{ url: image, alt: project.title }] : undefined,
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title,
+            description,
+            images: image ? [image] : undefined,
+        },
+    }
 }
 
 

@@ -6,6 +6,7 @@ import Navbar from '@/components/Navbar'
 import { useToast } from '@/components/Toast'
 
 export default function AdminLogin() {
+    const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [loading, setLoading] = useState(false)
     const router = useRouter()
@@ -19,7 +20,7 @@ export default function AdminLogin() {
             const res = await fetch('/api/auth/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ password })
+                body: JSON.stringify({ username, password })
             })
 
             const data = await res.json()
@@ -49,12 +50,24 @@ export default function AdminLogin() {
                     <form onSubmit={handleLogin} className="login-form">
                         <div className="form-group">
                             <input
+                                type="text"
+                                placeholder="Username"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                                className="form-input"
+                                required
+                                autoComplete="username"
+                            />
+                        </div>
+                        <div className="form-group">
+                            <input
                                 type="password"
                                 placeholder="Password Admin"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 className="form-input"
                                 required
+                                autoComplete="current-password"
                             />
                         </div>
                         <button type="submit" className="btn btn-primary" disabled={loading} style={{ width: '100%', justifyContent: 'center' }}>

@@ -61,45 +61,81 @@ export default async function Home() {
         <>
             <Navbar />
 
-            {/* ── HERO ── */}
+            {/* ── HERO (intro + about + foto) ── */}
             <section id="home">
                 <div className="hero-background">
                     <div className="hero-glow hero-glow-1"></div>
                     <div className="hero-glow hero-glow-2"></div>
                 </div>
 
-                <h1 className="hero-name">
-                    Building Digital<br />
-                    <span className="outline">Experiences<span className="accent-dot">.</span></span>
-                </h1>
+                <div className="container">
+                    <div className="hero-grid">
+                        <div className="hero-left">
+                        <p className="hero-greeting">
+                            <span className="hero-greeting-dot"></span>
+                            Hello, I&apos;m Ihmal Al Azid
+                        </p>
 
-                <p className="hero-headline">Full Stack Developer &mdash; From complexity to intuitive interfaces and reliable systems.</p>
+                        <h1 className="hero-name">
+                            Building Digital<br />
+                            <span className="outline">Experiences<span className="accent-dot">.</span></span>
+                        </h1>
 
-                <p className="hero-sub">
-                    With over 4 years of experience, I specialize in crafting modern web applications. My focus is on high performance, clean code, and solutions that drive business growth.
-                </p>
+                        <p className="hero-sub">
+                            Full Stack Developer with 4+ years of experience crafting web applications that unite intuitive interfaces with robust backend architecture—smart, efficient, and built to deliver measurable business impact.
+                        </p>
 
-                <div className="hero-actions">
-                    <Link href="#projects" className="btn btn-primary">
-                        <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                            <path d="M15 10l5 5-5 5" />
-                            <path d="M4 4v7a4 4 0 004 4h12" />
-                        </svg>
-                        View Portfolio
-                    </Link>
-                    <a
-                        href={cvDownloadUrl}
-                        className="btn btn-ghost"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                            <path d="M12 3v12" />
-                            <path d="M7 10l5 5 5-5" />
-                            <path d="M5 21h14" />
-                        </svg>
-                        Download CV
-                    </a>
+                        <div className="hero-actions">
+                            <Link href="#projects" className="btn btn-primary">
+                                <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                    <path d="M15 10l5 5-5 5" />
+                                    <path d="M4 4v7a4 4 0 004 4h12" />
+                                </svg>
+                                View Portfolio
+                            </Link>
+                            <a
+                                href={cvDownloadUrl}
+                                className="btn btn-ghost"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                    <path d="M12 3v12" />
+                                    <path d="M7 10l5 5 5-5" />
+                                    <path d="M5 21h14" />
+                                </svg>
+                                Download CV
+                            </a>
+                        </div>
+
+                        <div className="skills-title">Tools &amp; Technologies</div>
+                        <div className="skills-grid">
+                            {skills.map(skill => (
+                                <span key={skill.name} className="skill-tag">
+                                    <span style={{ fontSize: '1.1em', color: 'currentColor', display: 'inline-flex', opacity: 0.95 }}>
+                                        {skill.icon}
+                                    </span>
+                                    {skill.name}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="hero-right">
+                        <div className="about-photo-wrap">
+                            <div className="about-photo">
+                                <Image
+                                    src="/images/profile.webp"
+                                    alt="Ihmal Al Azid"
+                                    fill
+                                    sizes="(max-width: 900px) 100vw, 360px"
+                                    priority
+                                />
+                            </div>
+                            <div className="about-photo-badge">4+ Years<br />Experience</div>
+                        </div>
+                    </div>
+                    </div>
                 </div>
 
             </section>
@@ -124,14 +160,20 @@ export default async function Home() {
                     </ScrollReveal>
 
                     <div className="projects-list">
-                        {featured.map((project, i) => (
+                        {featured.map((project) => (
                             <ScrollReveal key={project.id}>
-                                <div className={`project-card${i % 2 === 1 ? ' reverse' : ''}`}>
+                                <div className="project-card">
                                     <div className="project-visual">
                                         <div className="project-visual-bg"></div>
-                                        <div className="project-mockup-stack" style={{ display: 'flex', alignItems: 'center', justifyItems: 'center', width: '100%', height: '100%', background: 'linear-gradient(135deg, var(--surface) 0%, var(--border) 100%)', color: 'var(--text-muted)' }}>
+                                        <div className="project-mockup-stack" style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyItems: 'center', width: '100%', height: '100%', background: 'linear-gradient(135deg, var(--surface) 0%, var(--border) 100%)', color: 'var(--text-muted)', overflow: 'hidden' }}>
                                             {project.imageUrls?.[0] ? (
-                                                <Image src={project.imageUrls[0]} alt={project.title} fill style={{ objectFit: 'cover', borderRadius: 'inherit' }} />
+                                                <Image
+                                                    src={project.imageUrls[0]}
+                                                    alt={project.title}
+                                                    fill
+                                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                                    style={{ objectFit: 'cover', borderRadius: 'inherit' }}
+                                                />
                                             ) : (
                                                 <span style={{ margin: 'auto' }}>No Image Available</span>
                                             )}
@@ -185,56 +227,6 @@ export default async function Home() {
             </section>
 
             <div className="divider-wrap"><div className="divider"></div></div>
-
-            {/* ── ABOUT ── */}
-            <section id="about">
-                <div className="container">
-                    <div className="about-grid">
-                        <ScrollReveal>
-                            <div className="about-photo-wrap">
-                                <div className="about-photo">
-                                    <Image
-                                        src="/images/profile.webp"
-                                        alt="Ihmal Al Azid"
-                                        fill
-                                        sizes="(max-width: 768px) 100vw, 320px"
-                                        priority
-                                    />
-                                </div>
-                                <div className="about-photo-badge">4+ Years<br />Experience</div>
-                            </div>
-                        </ScrollReveal>
-                        <ScrollReveal delay={1}>
-                            <div className="about-content">
-                                <span className="section-tag">About Profile</span>
-                                <h2 className="section-title">
-                                    Business Value-Oriented<br /><em>Software Engineering</em>
-                                </h2>
-                                <p className="about-bio">
-                                    Hello, I&apos;m <strong>Ihmal Al Azid</strong>. As a Fullstack Developer with over 4 years of experience, I am dedicated to designing web applications that combine the aesthetics of an intuitive interface with a robust backend architecture.
-                                    <br /><br />
-                                    My main focus is on creating solutions that align with client business objectives. For me, technical excellence is not about code complexity, but about smart, efficient, and maintainable integration. My commitment is to ensure that every project delivers real impact and functional sustainability for users.
-                                </p>
-                                <div className="skills-title">Tools &amp; Technologies</div>
-                                <div className="skills-grid">
-                                    {skills.map(skill => (
-                                        <span key={skill.name} className="skill-tag">
-                                            <span style={{ fontSize: '1.1em', color: 'currentColor', display: 'inline-flex', opacity: 0.95 }}>
-                                                {skill.icon}
-                                            </span>
-                                            {skill.name}
-                                        </span>
-                                    ))}
-                                </div>
-                            </div>
-                        </ScrollReveal>
-                    </div>
-                </div>
-            </section>
-
-            <div className="divider-wrap"><div className="divider"></div></div>
-
-
 
             {/* ── CONTACT ── */}
             <section id="contact">

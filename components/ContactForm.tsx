@@ -2,10 +2,10 @@
 
 import { useState } from 'react'
 import { useToast } from './Toast'
-import { supabase } from '@/lib/supabaseClient'
+import { fetchCsrf } from '@/lib/client-csrf'
 
 export default function ContactForm() {
-    const [form, setForm] = useState({ name: '', email: '', message: '' })
+    const [form, setForm] = useState({ name: '', email: '', message: '', website: '' })
     const [status, setStatus] = useState<'idle' | 'loading' | 'success'>('idle')
     const { showToast } = useToast()
 
@@ -18,7 +18,7 @@ export default function ContactForm() {
         setStatus('loading')
 
         try {
-            const { name, email, message } = form
+            const { name, email, message, website } = form
 
             if (!name || !email || !message) {
                 showToast('error', 'Gagal', 'Semua field wajib diisi.')
@@ -33,19 +33,23 @@ export default function ContactForm() {
                 return
             }
 
-            // Langsung ke Supabase (kompatibel dengan static hosting)
-            const { error } = await supabase
-                .from('messages')
-                .insert([{ name, email, message }])
+            const res = await fetchCsrf('/api/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, email, message, website }),
+            })
 
-            if (error) throw error
+            if (!res.ok) {
+                const err = await res.json().catch(() => ({}))
+                showToast('error', 'Failed to Send', err.error || 'Gagal mengirim pesan.')
+                setStatus('idle')
+                return
+            }
 
             setStatus('success')
-            setForm({ name: '', email: '', message: '' })
-            showToast('success', 'Message Sent! 🎉', 'Thank you! I will reply within 1–2 business days.')
-
+            setForm({ name: '', email: '', message: '', website: '' })
+            showToast('success', 'Message Sent!', 'Thank you! I will reply within 1–2 business days.')
             setTimeout(() => setStatus('idle'), 3000)
-
         } catch (err: unknown) {
             setStatus('idle')
             const msg = err instanceof Error ? err.message : 'An error occurred. Please try again.'
@@ -65,6 +69,8 @@ export default function ContactForm() {
                     id="name"
                     placeholder="John Doe"
                     required
+                    maxLength={100}
+                    autoComplete="name"
                     value={form.name}
                     onChange={handleChange}
                     disabled={isLoading}
@@ -77,6 +83,8 @@ export default function ContactForm() {
                     id="email"
                     placeholder="john@example.com"
                     required
+                    maxLength={255}
+                    autoComplete="email"
                     value={form.email}
                     onChange={handleChange}
                     disabled={isLoading}
@@ -88,10 +96,24 @@ export default function ContactForm() {
                     id="message"
                     placeholder="Tell me about your project or idea..."
                     required
+                    maxLength={5000}
                     value={form.message}
                     onChange={handleChange}
                     disabled={isLoading}
                 ></textarea>
+            </div>
+
+            {/* Honeypot field — hidden from real users */}
+            <div style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', overflow: 'hidden' }} aria-hidden="true">
+                <label htmlFor="website">Website</label>
+                <input
+                    type="text"
+                    id="website"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={form.website}
+                    onChange={handleChange}
+                />
             </div>
 
             <button
@@ -109,7 +131,7 @@ export default function ContactForm() {
                         Sending...
                     </>
                 ) : isSuccess ? (
-                    <>✅ Sent!</>
+                    <>Sent!</>
                 ) : (
                     <>
                         <svg width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">

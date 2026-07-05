@@ -5,7 +5,6 @@ import { usePathname, useSearchParams } from 'next/navigation'
 import SiteLoader from '@/components/SiteLoader'
 
 const SHOW_DELAY_MS = 120
-const MIN_VISIBLE_MS = 260
 
 export default function NavigationFeedback() {
     const pathname = usePathname()
@@ -36,24 +35,6 @@ export default function NavigationFeedback() {
             visibleRef.current = true
             setVisible(true)
         }, SHOW_DELAY_MS)
-    }
-
-    const stopLoading = () => {
-        clearTimer(showTimerRef)
-
-        if (!visibleRef.current) {
-            return
-        }
-
-        const elapsed = Date.now() - visibleSinceRef.current
-        const delay = Math.max(0, MIN_VISIBLE_MS - elapsed)
-
-        clearTimer(hideTimerRef)
-        hideTimerRef.current = window.setTimeout(() => {
-            hideTimerRef.current = null
-            visibleRef.current = false
-            setVisible(false)
-        }, delay)
     }
 
     useEffect(() => {
@@ -109,7 +90,14 @@ export default function NavigationFeedback() {
     }, [])
 
     useEffect(() => {
-        stopLoading()
+        // Segera sembunyikan loader saat route baru committed
+        // agar tidak menghalangi Next.js scroll manager (menghindari warning "Skipping auto-scroll behavior").
+        clearTimer(showTimerRef)
+        clearTimer(hideTimerRef)
+        if (visibleRef.current) {
+            visibleRef.current = false
+            setVisible(false)
+        }
     }, [pathname, searchParams])
 
     if (!visible) {
@@ -117,9 +105,6 @@ export default function NavigationFeedback() {
     }
 
     return (
-        <>
-            <div className="navigation-progress" aria-hidden="true"></div>
-            <SiteLoader compact label="Opening page" className="navigation-loader" />
-        </>
+        <SiteLoader fullscreen label="Loading" />
     )
 }
