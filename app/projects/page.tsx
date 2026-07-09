@@ -209,7 +209,7 @@ export default function ProjectsPage() {
                                     </div>
 
                                     <div className="project-listrow-actions">
-                                        <Link href={`/projects/${project.slug}`} className="btn btn-primary btn-sm">
+                                        <Link prefetch={false} href={`/projects/${project.slug}`} className="btn btn-primary btn-sm">
                                             View Details
                                             <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                                                 <path d="M5 12h14M12 5l7 7-7 7" />
