@@ -41,6 +41,7 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false, // hilangkan header X-Powered-By: Next.js
   images: {
+    unoptimized: true,
     formats: ['image/avif', 'image/webp'],
     // Storage sekarang lokal di /public/uploads → tidak perlu remotePatterns eksternal
     remotePatterns: [],
