@@ -3364,3 +3364,64 @@ section {
 .reveal.reveal-delay-2 {
   transition-delay: 0.30s;
 }
+
+/* Mobile override: homepage project cards must be single-column */
+@media (max-width: 768px) {
+  #projects .projects-list {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 24px !important;
+    overflow: visible;
+  }
+
+  #projects .projects-list > .reveal {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  #projects .project-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    border-radius: 12px;
+  }
+
+  #projects .project-visual {
+    aspect-ratio: 4 / 3;
+    min-height: 200px;
+  }
+
+  #projects .project-mockup-stack {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    padding: 0 !important;
+  }
+
+  #projects .project-content {
+    padding: 18px 18px 22px;
+    gap: 10px;
+  }
+
+  #projects .project-title {
+    font-size: 1.15rem;
+  }
+
+  #projects .project-desc {
+    font-size: 0.88rem;
+    -webkit-line-clamp: 2;
+  }
+
+  #projects .project-actions,
+  #projects .project-actions .btn {
+    width: 100%;
+  }
+
+  #projects .project-actions {
+    flex-direction: column;
+  }
+
+  #projects .project-actions .btn {
+    justify-content: center;
+  }
+}
