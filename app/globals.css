@@ -1684,10 +1684,12 @@ section {
 }
 
 .project-body .container {
-  display: grid;
-  grid-template-columns: 1fr 360px;
-  gap: 64px;
-  align-items: start;
+  display: block;
+}
+
+.project-main {
+  width: 100%;
+  max-width: 100%;
 }
 
 /* Left column */
