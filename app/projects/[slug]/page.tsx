@@ -270,53 +270,6 @@ export default async function ProjectDetail(props: { params: Promise<{ slug: str
                     {/* Right Sidebar */}
                     <aside className="project-sidebar">
 
-                        {/* Project Info Card */}
-                        <div className="sidebar-card">
-                            <div className="sidebar-card-header">Project Details</div>
-
-                            <div className="sidebar-info-row">
-                                <span className="info-label">Category</span>
-                                <span className="info-value">{project.category}</span>
-                            </div>
-
-                            {project.status && (
-                                <div className="sidebar-info-row">
-                                    <span className="info-label">Status</span>
-                                    <span className="info-value" style={{ color: statusColor, fontWeight: 500 }}>
-                                        {isLive ? '✓ ' : isInProgress ? '⟳ ' : ''}{project.status}
-                                    </span>
-                                </div>
-                            )}
-
-                            {project.featured && (
-                                <div className="sidebar-info-row">
-                                    <span className="info-label">Featured</span>
-                                    <span className="info-value">⭐ Yes — Highlighted Project</span>
-                                </div>
-                            )}
-
-                            {project.role && (
-                                <div className="sidebar-info-row">
-                                    <span className="info-label">Role</span>
-                                    <span className="info-value">{project.role}</span>
-                                </div>
-                            )}
-
-                            {project.timeline && (
-                                <div className="sidebar-info-row">
-                                    <span className="info-label">Timeline</span>
-                                    <span className="info-value muted">{project.timeline}</span>
-                                </div>
-                            )}
-
-                            {project.year && (
-                                <div className="sidebar-info-row">
-                                    <span className="info-label">Year</span>
-                                    <span className="info-value muted">{project.year}</span>
-                                </div>
-                            )}
-                        </div>
-
                         {/* CTA Card */}
                         {(project.demoUrl || project.githubUrl) && (
                             <div className="sidebar-card">
