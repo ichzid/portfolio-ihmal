@@ -192,7 +192,7 @@ export default async function Home() {
                                             ))}
                                         </div>
                                         <div className="project-actions">
-                                            <Link prefetch={false} href={`/projects/${project.slug}`} className="btn btn-primary btn-sm">
+                                            <Link href={`/projects/${project.slug}`} className="btn btn-primary btn-sm">
                                                 Detail
                                             </Link>
                                         </div>
