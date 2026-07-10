@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import type { Project } from '@/lib/project-types'
+import Image from 'next/image'
 
 import BackButton from '@/components/BackButton'
 import SiteLoader from '@/components/SiteLoader'
@@ -130,13 +131,12 @@ export default function ProjectsPage() {
                                 <div className="project-grid-visual">
                                     {project.imageUrls?.[0] ? (
                                         <div style={{ width: '100%', height: '100%', position: 'relative' }}>
-                                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                                            <img
+                                            <Image
                                                 src={project.imageUrls[0]}
                                                 alt={project.title}
-                                                loading="lazy"
-                                                decoding="async"
-                                                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                                                fill
+                                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                                style={{ objectFit: 'cover' }}
                                             />
                                         </div>
                                     ) : (
@@ -175,16 +175,13 @@ export default function ProjectsPage() {
                             <div key={project.id} className="project-listrow">
                                 <div className="project-listrow-visual">
                                     {project.imageUrls?.[0] ? (
-                                        <>
-                                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                                            <img
-                                                src={project.imageUrls[0]}
-                                                alt={project.title}
-                                                loading="lazy"
-                                                decoding="async"
-                                                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                                            />
-                                        </>
+                                        <Image
+                                            src={project.imageUrls[0]}
+                                            alt={project.title}
+                                            fill
+                                            style={{ objectFit: 'cover' }}
+                                            sizes="(max-width: 768px) 100vw, 320px"
+                                        />
                                     ) : (
                                         <div className="project-listrow-mockup">No Image Available</div>
                                     )}
