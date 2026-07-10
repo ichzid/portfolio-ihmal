@@ -1,18 +1,12 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { getProjectBySlug, getProjects } from '@/lib/projects'
+import { getProjectBySlug } from '@/lib/projects'
 import Navbar from '@/components/Navbar'
 import BackButton from '@/components/BackButton'
 import ProjectCarousel from './ProjectCarousel'
 
-// Regenerate setiap 1 jam agar edit dari /admin cepat tercermin
-export const revalidate = 3600
-
-// Pre-render semua slug saat build untuk performa optimal (SSG)
-export async function generateStaticParams() {
-    const projects = await getProjects()
-    return projects.map((p) => ({ slug: p.slug }))
-}
+// Dynamic karena data project sering di-update dari /admin
+export const dynamic = 'force-dynamic'
 
 // SEO & social preview per project
 export async function generateMetadata(
