@@ -20,10 +20,6 @@ interface ProjectForm {
     demoVideoUrl: string
     githubUrl: string
     featured: boolean
-    year: string
-    role: string
-    timeline: string
-    status: 'Live' | 'In Progress' | 'Archived' | 'Draft'
 }
 
 const initialForm: ProjectForm = {
@@ -40,10 +36,6 @@ const initialForm: ProjectForm = {
     demoVideoUrl: '',
     githubUrl: '',
     featured: false,
-    year: '',
-    role: '',
-    timeline: '',
-    status: 'Live',
 }
 
 const generateSlug = (text: string) =>
@@ -134,10 +126,6 @@ export default function AddProject() {
                 demoVideoUrl: formData.demoVideoUrl,
                 githubUrl: formData.githubUrl,
                 featured: formData.featured,
-                year: formData.year,
-                role: formData.role,
-                timeline: formData.timeline,
-                status: formData.status,
                 imageUrls,
             }
 
@@ -248,33 +236,6 @@ export default function AddProject() {
                                     required
                                     className="form-input"
                                 />
-                            </div>
-
-                            <div className="form-row">
-                                <div className="form-group">
-                                    <label>Year</label>
-                                    <input type="text" name="year" value={formData.year} onChange={handleChange} className="form-input" placeholder="2024" maxLength={20} />
-                                </div>
-                                <div className="form-group">
-                                    <label>Role</label>
-                                    <input type="text" name="role" value={formData.role} onChange={handleChange} className="form-input" placeholder="Full Stack Developer" maxLength={100} />
-                                </div>
-                            </div>
-
-                            <div className="form-row">
-                                <div className="form-group">
-                                    <label>Timeline</label>
-                                    <input type="text" name="timeline" value={formData.timeline} onChange={handleChange} className="form-input" placeholder="3 months" maxLength={100} />
-                                </div>
-                                <div className="form-group">
-                                    <label>Status</label>
-                                    <select name="status" value={formData.status} onChange={handleChange} className="form-input">
-                                        <option value="Live">Live</option>
-                                        <option value="In Progress">In Progress</option>
-                                        <option value="Archived">Archived</option>
-                                        <option value="Draft">Draft</option>
-                                    </select>
-                                </div>
                             </div>
 
                             <div className="form-group">

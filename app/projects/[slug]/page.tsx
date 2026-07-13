@@ -58,27 +58,6 @@ export default async function ProjectDetail(props: { params: Promise<{ slug: str
         notFound()
     }
 
-    const isLive = project.status === 'Live'
-    const isInProgress = project.status === 'In Progress'
-
-    const statusColor = isLive
-        ? 'var(--green)'
-        : isInProgress
-            ? '#facc15'
-            : 'var(--text-muted)'
-
-    const statusBg = isLive
-        ? 'rgba(74,222,128,0.1)'
-        : isInProgress
-            ? 'rgba(250,204,21,0.1)'
-            : 'var(--surface2)'
-
-    const statusBorder = isLive
-        ? 'rgba(74,222,128,0.25)'
-        : isInProgress
-            ? 'rgba(250,204,21,0.25)'
-            : 'var(--border)'
-
     // Convert YouTube/Loom share URL to embed URL
     function getEmbedUrl(url: string): string | null {
         try {
@@ -127,27 +106,6 @@ export default async function ProjectDetail(props: { params: Promise<{ slug: str
                             </span>
                         )}
 
-                        {project.status && (
-                            <span style={{
-                                fontSize: '0.72rem', fontWeight: 600,
-                                color: statusColor,
-                                background: statusBg,
-                                border: `1px solid ${statusBorder}`,
-                                padding: '4px 12px', borderRadius: '40px',
-                                letterSpacing: '0.05em',
-                                display: 'flex', alignItems: 'center', gap: '5px'
-                            }}>
-                                {isLive && (
-                                    <span style={{
-                                        width: '6px', height: '6px',
-                                        background: 'var(--green)', borderRadius: '50%',
-                                        flexShrink: 0, animation: 'pulseRing 2s infinite',
-                                        display: 'inline-block'
-                                    }} />
-                                )}
-                                {project.status}
-                            </span>
-                        )}
                     </div>
 
                     <h1 className="project-hero-title">{project.title}</h1>

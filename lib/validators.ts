@@ -27,10 +27,6 @@ export const projectSchema = z.object({
     demoVideoUrl: urlOptional,
     githubUrl: urlOptional,
     featured: z.boolean().optional(),
-    year: z.string().trim().max(20).optional().or(z.literal('').transform(() => undefined)),
-    role: z.string().trim().max(100).optional().or(z.literal('').transform(() => undefined)),
-    timeline: z.string().trim().max(100).optional().or(z.literal('').transform(() => undefined)),
-    status: z.enum(['Live', 'In Progress', 'Archived', 'Draft']).optional(),
     imageUrls: z.array(z.string().trim().max(500)).max(20).optional(),
 })
 

@@ -12,7 +12,6 @@ interface AdminProject {
     title: string
     slug: string
     category: string
-    status: string | null
     featured: boolean
     imageUrls: string[]
 }
@@ -129,11 +128,6 @@ export default function AdminDashboard() {
                                         <tr key={p.id}>
                                             <td className="td-title">{p.title}</td>
                                             <td className="td-muted">{p.category}</td>
-                                            <td>
-                                                <span className={`status-badge ${p.status === 'Live' ? 'live' : p.status === 'In Progress' ? 'progress' : ''}`}>
-                                                    {p.status}
-                                                </span>
-                                            </td>
                                             <td style={{ textAlign: 'center' }}>{p.featured ? 'Yes' : <span style={{ opacity: 0.3 }}>—</span>}</td>
                                             <td style={{ textAlign: 'right' }}>
                                                 <Link href={`/admin/edit-project/${p.id}`} className="btn-action edit">Edit</Link>
@@ -156,10 +150,7 @@ export default function AdminDashboard() {
                                         {p.featured && <span title="Featured">Featured</span>}
                                     </div>
                                     <div className="mc-footer">
-                                        <span className={`status-badge ${p.status === 'Live' ? 'live' : p.status === 'In Progress' ? 'progress' : ''}`}>
-                                            {p.status}
-                                        </span>
-                                        <div style={{ display: 'flex', gap: '8px' }}>
+                                        <div style={{ display: 'flex', gap: '8px', marginLeft: 'auto' }}>
                                             <Link href={`/admin/edit-project/${p.id}`} className="btn-action edit">Edit</Link>
                                             <button onClick={() => handleDelete(p.id, p.title)} className="btn-action delete">Delete</button>
                                         </div>
@@ -194,9 +185,6 @@ export default function AdminDashboard() {
                 .td-muted { color: var(--text-muted); font-size: 0.9rem; }
                 .admin-table tbody tr:last-child td { border-bottom: none; }
                 .admin-table tbody tr:hover { background: var(--surface2); }
-                .status-badge { font-size: 0.75rem; padding: 3px 10px; border-radius: 20px; background: var(--surface2); border: 1px solid var(--border); white-space: nowrap; color: var(--text-muted); }
-                .status-badge.live { color: var(--green); background: rgba(74,222,128,0.1); border-color: rgba(74,222,128,0.25); }
-                .status-badge.progress { color: #facc15; background: rgba(250,204,21,0.1); border-color: rgba(250,204,21,0.25); }
                 .btn-action { font-size: 0.82rem; padding: 5px 12px; border-radius: 6px; cursor: pointer; margin-left: 6px; text-decoration: none; display: inline-block; font-weight: 500; transition: all 0.2s; border: 1px solid transparent; line-height: 1.6; }
                 .btn-action.edit { background: var(--surface2); color: var(--text); border-color: var(--border); }
                 .btn-action.edit:hover { background: var(--accent); color: #000; border-color: var(--accent); }

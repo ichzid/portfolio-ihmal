@@ -16,8 +16,4 @@ export interface Project {
     githubUrl?: string
     featured: boolean
     imageUrls: string[]
-    year?: string
-    role?: string
-    timeline?: string
-    status?: string
 }

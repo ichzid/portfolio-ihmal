@@ -26,10 +26,6 @@ function mapProject(p: PrismaProject): Project {
         githubUrl: p.githubUrl ?? undefined,
         featured: p.featured,
         imageUrls,
-        year: p.year ?? undefined,
-        role: p.role ?? undefined,
-        timeline: p.timeline ?? undefined,
-        status: p.status ?? undefined,
     }
 }
 

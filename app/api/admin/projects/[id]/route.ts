@@ -82,10 +82,6 @@ export async function PUT(req: NextRequest, ctx: RouteContext) {
                 githubUrl: data.githubUrl,
                 featured: data.featured ?? false,
                 imageUrls: newImages,
-                year: data.year,
-                role: data.role,
-                timeline: data.timeline,
-                status: data.status,
             },
         })
 

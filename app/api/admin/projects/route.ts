@@ -18,7 +18,6 @@ export async function GET(req: NextRequest) {
             title: true,
             slug: true,
             category: true,
-            status: true,
             featured: true,
             imageUrls: true,
         },
@@ -70,10 +69,6 @@ export async function POST(req: NextRequest) {
                 githubUrl: data.githubUrl,
                 featured: data.featured ?? false,
                 imageUrls: data.imageUrls ?? [],
-                year: data.year,
-                role: data.role,
-                timeline: data.timeline,
-                status: data.status,
             },
         })
 

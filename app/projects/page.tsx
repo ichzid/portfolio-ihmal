@@ -189,12 +189,6 @@ export default function ProjectsPage() {
                                 <div className="project-listrow-content">
                                     <div className="project-listrow-meta">
                                         <span className="project-listrow-cat">{project.category}</span>
-                                        {project.year && <span className="project-listrow-year">{project.year}</span>}
-                                        {project.status && (
-                                            <span className={`project-listrow-status ${project.status === 'Live' ? 'live' : project.status === 'In Progress' ? 'progress' : ''}`}>
-                                                {project.status}
-                                            </span>
-                                        )}
                                     </div>
                                     <h3 className="project-listrow-title">{project.title}</h3>
                                     <p className="project-listrow-desc">{project.description}</p>

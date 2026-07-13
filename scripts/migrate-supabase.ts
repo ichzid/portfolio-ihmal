@@ -131,10 +131,6 @@ async function migrateProjects() {
                 githubUrl: row.github_url || null,
                 featured: !!row.featured,
                 imageUrls: newUrls,
-                year: row.year || null,
-                role: row.role || null,
-                timeline: row.timeline || null,
-                status: row.status || 'Live',
             },
             update: {
                 title: row.title,
@@ -150,10 +146,6 @@ async function migrateProjects() {
                 githubUrl: row.github_url || null,
                 featured: !!row.featured,
                 imageUrls: newUrls,
-                year: row.year || null,
-                role: row.role || null,
-                timeline: row.timeline || null,
-                status: row.status || 'Live',
             },
         })
         console.log(`  ✓ Sukses (${newUrls.length} gambar).`)

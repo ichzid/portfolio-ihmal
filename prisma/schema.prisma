@@ -27,10 +27,6 @@ model Project {
   githubUrl       String?  @map("github_url") @db.VarChar(500)
   featured        Boolean  @default(false)
   imageUrls       Json     @map("image_urls") // array of relative paths
-  year            String?  @db.VarChar(20)
-  role            String?  @db.VarChar(100)
-  timeline        String?  @db.VarChar(100)
-  status          String?  @db.VarChar(50)
   createdAt       DateTime @default(now()) @map("created_at")
   updatedAt       DateTime @updatedAt @map("updated_at")
 
