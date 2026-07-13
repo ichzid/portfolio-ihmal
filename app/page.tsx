@@ -12,8 +12,8 @@ import {
 } from 'react-icons/si'
 import { FaCode } from 'react-icons/fa'
 
-// Revalidate every 1 hour — reduces document latency by serving cached page
-export const revalidate = 3600;
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
 
 function N8nIcon() {
     return (
