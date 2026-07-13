@@ -4,8 +4,6 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import type { Project } from '@/lib/project-types'
-import Image from 'next/image'
-
 import BackButton from '@/components/BackButton'
 import SiteLoader from '@/components/SiteLoader'
 
@@ -130,15 +128,12 @@ export default function ProjectsPage() {
                             <div key={project.id} className="project-grid-card">
                                 <div className="project-grid-visual">
                                     {project.imageUrls?.[0] ? (
-                                        <div style={{ width: '100%', height: '100%', position: 'relative' }}>
-                                            <Image
-                                                src={project.imageUrls[0]}
-                                                alt={project.title}
-                                                fill
-                                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                                style={{ objectFit: 'cover' }}
-                                            />
-                                        </div>
+                                        // eslint-disable-next-line @next/next/no-img-element
+                                        <img
+                                            src={project.imageUrls[0]}
+                                            alt={project.title}
+                                            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                                        />
                                     ) : (
                                         <div className="project-grid-mockup" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', background: 'linear-gradient(135deg, var(--surface) 0%, var(--border) 100%)', color: 'var(--text-muted)' }}>
                                             No Image Available
@@ -175,12 +170,11 @@ export default function ProjectsPage() {
                             <div key={project.id} className="project-listrow">
                                 <div className="project-listrow-visual">
                                     {project.imageUrls?.[0] ? (
-                                        <Image
+                                        // eslint-disable-next-line @next/next/no-img-element
+                                        <img
                                             src={project.imageUrls[0]}
                                             alt={project.title}
-                                            fill
-                                            style={{ objectFit: 'cover' }}
-                                            sizes="(max-width: 768px) 100vw, 320px"
+                                            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                                         />
                                     ) : (
                                         <div className="project-listrow-mockup">No Image Available</div>

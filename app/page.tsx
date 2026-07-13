@@ -167,12 +167,11 @@ export default async function Home() {
                                         <div className="project-visual-bg"></div>
                                         <div className="project-mockup-stack" style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyItems: 'center', width: '100%', height: '100%', background: 'linear-gradient(135deg, var(--surface) 0%, var(--border) 100%)', color: 'var(--text-muted)', overflow: 'hidden' }}>
                                             {project.imageUrls?.[0] ? (
-                                                <Image
+                                                // eslint-disable-next-line @next/next/no-img-element
+                                                <img
                                                     src={project.imageUrls[0]}
                                                     alt={project.title}
-                                                    fill
-                                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                                    style={{ objectFit: 'cover', borderRadius: 'inherit' }}
+                                                    style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit', display: 'block' }}
                                                 />
                                             ) : (
                                                 <span style={{ margin: 'auto' }}>No Image Available</span>
