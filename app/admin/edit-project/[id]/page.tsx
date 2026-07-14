@@ -90,8 +90,8 @@ export default function EditProject(props: { params: Promise<{ id: string }> }) 
                 featured: !!project.featured,
             })
             setImageUrls(imgs)
-        } catch (err: any) {
-            showToast('error', 'Gagal memuat', err.message || 'Terjadi kesalahan')
+        } catch (err) {
+            showToast('error', 'Gagal memuat', err instanceof Error ? err.message : 'Terjadi kesalahan')
         } finally {
             setInitialLoad(false)
         }
@@ -184,8 +184,8 @@ export default function EditProject(props: { params: Promise<{ id: string }> }) 
 
             showToast('success', 'Project Updated', 'Project berhasil diperbarui!')
             router.push('/admin/dashboard')
-        } catch (err: any) {
-            showToast('error', 'Update Failed', err.message || 'Terjadi kesalahan')
+        } catch (err) {
+            showToast('error', 'Update Failed', err instanceof Error ? err.message : 'Terjadi kesalahan')
         } finally {
             setLoading(false)
         }

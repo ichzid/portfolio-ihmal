@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
@@ -22,11 +22,7 @@ export default function AdminDashboard() {
     const router = useRouter()
     const { showToast } = useToast()
 
-    useEffect(() => {
-        fetchProjects()
-    }, [])
-
-    const fetchProjects = async () => {
+    const fetchProjects = useCallback(async () => {
         setLoading(true)
         try {
             const res = await fetch('/api/admin/projects', { credentials: 'same-origin', cache: 'no-store' })
@@ -41,7 +37,11 @@ export default function AdminDashboard() {
         } finally {
             setLoading(false)
         }
-    }
+    }, [router])
+
+    useEffect(() => {
+        fetchProjects()
+    }, [fetchProjects])
 
     const handleDelete = async (id: string, title: string) => {
         if (!confirm(`Are you sure you want to delete the project "${title}"?`)) return

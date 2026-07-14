@@ -62,7 +62,7 @@ export default function ProjectCarousel({
 
     return (
         <div className="carousel-root">
-            {/* Main image */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
                 key={currentIndex}
                 src={validImages[currentIndex]}

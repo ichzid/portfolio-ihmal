@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState, type MutableRefObject } from 'react'
+import { useCallback, useEffect, useRef, useState, type MutableRefObject } from 'react'
 import { usePathname, useSearchParams } from 'next/navigation'
 import SiteLoader from '@/components/SiteLoader'
 
@@ -22,7 +22,7 @@ export default function NavigationFeedback() {
         }
     }
 
-    const startLoading = () => {
+    const startLoading = useCallback(() => {
         clearTimer(hideTimerRef)
 
         if (visibleRef.current || showTimerRef.current !== null) {
@@ -35,7 +35,7 @@ export default function NavigationFeedback() {
             visibleRef.current = true
             setVisible(true)
         }, SHOW_DELAY_MS)
-    }
+    }, [])
 
     useEffect(() => {
         visibleRef.current = visible
@@ -87,7 +87,7 @@ export default function NavigationFeedback() {
             clearTimer(showTimerRef)
             clearTimer(hideTimerRef)
         }
-    }, [])
+    }, [startLoading])
 
     useEffect(() => {
         // Segera sembunyikan loader saat route baru committed

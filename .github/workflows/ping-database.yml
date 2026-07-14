@@ -1,0 +1,15 @@
+name: Ping Database Keep-Alive
+
+on:
+  schedule:
+    - cron: '0 0 * * 0,1,3,5'
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hit Keep-Alive API
+        run: |
+          curl -f -s "https://ichmal.my.id/api/keep-alive" || exit 1
+          echo "Database keep-alive ping berhasil"

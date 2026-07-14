@@ -145,8 +145,8 @@ export default function AddProjectClient() {
             setFormData(initialForm)
             setImageUrls([])
             router.push('/admin/dashboard')
-        } catch (err: any) {
-            showToast('error', 'Add Failed', err.message || 'Terjadi kesalahan')
+        } catch (err) {
+            showToast('error', 'Add Failed', err instanceof Error ? err.message : 'Terjadi kesalahan')
         } finally {
             setLoading(false)
         }

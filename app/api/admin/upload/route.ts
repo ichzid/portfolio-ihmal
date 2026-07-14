@@ -40,9 +40,9 @@ export async function POST(req: NextRequest) {
 
         const saved = await saveProjectImage(file, slug)
         return NextResponse.json({ success: true, image: saved })
-    } catch (error: any) {
+    } catch (error) {
         return NextResponse.json(
-            { error: error?.message || 'Upload gagal' },
+            { error: error instanceof Error ? error.message : 'Upload gagal' },
             { status: 400 }
         )
     }

@@ -233,7 +233,7 @@ export default async function Home() {
                     <ScrollReveal>
                         <div className="contact-header">
                             <span className="section-tag">Get in Touch</span>
-                            <h2 className="section-title">Let's Discuss <em>Collaboration Opportunities</em></h2>
+                            <h2 className="section-title">Let&apos;s Discuss <em>Collaboration Opportunities</em></h2>
                             <p className="section-desc">I am open to discussing web platforms, backend systems, and AI automation initiatives. Share your business context or technical challenge, and I will respond within 24-48 business hours.</p>
                         </div>
                     </ScrollReveal>

@@ -83,8 +83,8 @@ export async function deleteProjectImage(url: string): Promise<void> {
     const filePath = path.join(PROJECTS_DIR, filename)
     try {
         await fs.unlink(filePath)
-    } catch (error: any) {
-        if (error?.code !== 'ENOENT') {
+    } catch (error) {
+        if (!(error instanceof Error && 'code' in error && error.code === 'ENOENT')) {
             console.error('Failed to delete image:', filePath, error)
         }
     }

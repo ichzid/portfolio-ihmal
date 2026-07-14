@@ -32,8 +32,8 @@ export default function AdminLogin() {
             showToast('success', 'Login Berhasil', 'Selamat datang di Admin Panel.')
             router.push('/admin/dashboard')
             router.refresh()
-        } catch (error: any) {
-            showToast('error', 'Akses Ditolak', error.message)
+        } catch (error) {
+            showToast('error', 'Akses Ditolak', error instanceof Error ? error.message : 'Login gagal')
         } finally {
             setLoading(false)
         }

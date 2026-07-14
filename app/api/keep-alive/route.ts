@@ -16,8 +16,8 @@ export async function GET() {
             },
             { status: 200 }
         )
-    } catch (error: any) {
-        console.error('Database ping error:', error?.message || error)
+    } catch (error) {
+        console.error('Database ping error:', error instanceof Error ? error.message : error)
         return NextResponse.json(
             { success: false, message: 'Database ping failed' },
             { status: 500 }
