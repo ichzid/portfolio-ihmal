@@ -1,13 +1,10 @@
 import type { Metadata } from 'next'
-import { Suspense } from 'react'
 import { Syne, DM_Sans } from 'next/font/google'
 import './globals.css'
 import { ToastProvider } from '@/components/Toast'
 import Footer from '@/components/Footer'
 import ScrollToTopButton from '@/components/ScrollToTopButton'
-import NavigationFeedback from '@/components/NavigationFeedback'
 
-// Self-hosted, preloaded, dan swap otomatis — hilangkan render-blocking
 const syne = Syne({
     subsets: ['latin'],
     weight: ['400', '600', '700', '800'],
@@ -52,9 +49,6 @@ export default function RootLayout({
         <html lang="id" className={`${syne.variable} ${dmSans.variable}`} data-scroll-behavior="smooth" suppressHydrationWarning>
             <body suppressHydrationWarning>
                 <ToastProvider>
-                    <Suspense fallback={null}>
-                        <NavigationFeedback />
-                    </Suspense>
                     {children}
                     <Footer />
                     <ScrollToTopButton />

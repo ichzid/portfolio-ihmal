@@ -95,14 +95,7 @@ export default function AdminDashboard() {
                     </div>
                 </div>
 
-                {loading ? (
-                    <div className="dash-state">
-                        <svg width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" style={{ animation: 'spin 1s linear infinite', marginBottom: '12px', color: 'var(--accent)' }}>
-                            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4" />
-                        </svg>
-                        Loading data...
-                    </div>
-                ) : projects.length === 0 ? (
+                {!loading && projects.length === 0 ? (
                     <div className="dash-state">
                         <svg width="40" height="40" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" style={{ marginBottom: '12px', opacity: 0.4 }}>
                             <rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" />

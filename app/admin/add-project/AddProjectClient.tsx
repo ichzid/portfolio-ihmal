@@ -252,7 +252,7 @@ export default function AddProjectClient() {
                             </div>
 
                             <div className="form-group">
-                                <label>Project Images {uploading && <span style={{ color: 'var(--accent)' }}>· Uploading...</span>}</label>
+                                <label>Project Images</label>
                                 <label className="upload-zone">
                                     <input type="file" multiple onChange={handleFileChange} accept="image/jpeg,image/png,image/webp,image/avif" disabled={uploading} style={{ display: 'none' }} />
                                     <svg width="28" height="28" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" y1="3" x2="12" y2="15" /></svg>
@@ -286,7 +286,7 @@ export default function AddProjectClient() {
 
                     <div className="form-actions">
                         <button type="submit" className="btn btn-primary save-btn" disabled={loading || uploading}>
-                            {loading ? 'Saving...' : 'Save Project'}
+                            Save Project
                         </button>
                     </div>
                 </form>

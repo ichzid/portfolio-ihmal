@@ -71,7 +71,7 @@ export default function AdminLogin() {
                             />
                         </div>
                         <button type="submit" className="btn btn-primary" disabled={loading} style={{ width: '100%', justifyContent: 'center' }}>
-                            {loading ? 'Memverifikasi...' : 'Masuk Dashboard'}
+                            Masuk Dashboard
                         </button>
                     </form>
                 </div>

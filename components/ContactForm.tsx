@@ -123,23 +123,10 @@ export default function ContactForm() {
                 disabled={isLoading || isSuccess}
                 style={{ alignSelf: 'flex-start' }}
             >
-                {isLoading ? (
-                    <>
-                        <svg width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" style={{ animation: 'spin 0.8s linear infinite' }}>
-                            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4" />
-                        </svg>
-                        Sending...
-                    </>
-                ) : isSuccess ? (
-                    <>Sent!</>
-                ) : (
-                    <>
-                        <svg width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
-                        </svg>
-                        Send Message
-                    </>
-                )}
+                <svg width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
+                </svg>
+                Send Message
             </button>
         </form>
     )
