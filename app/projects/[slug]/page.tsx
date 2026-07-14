@@ -107,8 +107,8 @@ export default async function ProjectDetail(props: { params: Promise<{ slug: str
                         )}
 
                     </div>
-
-                    <h1 className="project-hero-title">{project.title}</h1>
+                    
+                    <h1 className="project-hero-title" style={{ fontSize: '2rem', marginTop: '1rem', marginBottom: '1rem' }}>{project.title}</h1>
 
                     <p className="project-hero-desc">{project.description}</p>
 

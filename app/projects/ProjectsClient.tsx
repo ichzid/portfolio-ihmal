@@ -116,7 +116,7 @@ export default function ProjectsClient({ projects }: { projects: Project[] }) {
                                 </div>
                                 <div className="project-grid-content">
                                     <div className="project-grid-header">
-                                        <h3 className="project-grid-title">{project.title}</h3>
+                                        <h3 className="project-grid-title" style={{ fontSize: '1.1rem' }}>{project.title}</h3>
                                     </div>
                                     <p className="project-grid-desc">{project.description}</p>
 
@@ -158,7 +158,7 @@ export default function ProjectsClient({ projects }: { projects: Project[] }) {
                                     <div className="project-listrow-meta">
                                         <span className="project-listrow-cat">{project.category}</span>
                                     </div>
-                                    <h3 className="project-listrow-title">{project.title}</h3>
+                                    <h3 className="project-listrow-title" style={{ fontSize: '1.2rem' }}>{project.title}</h3>
                                     <p className="project-listrow-desc">{project.description}</p>
 
                                     <div className="project-listrow-tech">
