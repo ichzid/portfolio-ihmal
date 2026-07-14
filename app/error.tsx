@@ -13,6 +13,15 @@ export default function Error({
 }) {
     useEffect(() => {
         console.error(error)
+        
+        // Auto-refresh jika error karena file JS tidak ditemukan (ChunkLoadError setelah build ulang)
+        if (
+            error.message?.toLowerCase().includes('loading chunk') ||
+            error.name === 'ChunkLoadError' ||
+            error.message?.toLowerCase().includes('failed to fetch dynamically imported module')
+        ) {
+            window.location.reload()
+        }
     }, [error])
 
     return (
