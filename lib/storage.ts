@@ -3,9 +3,10 @@ import path from 'node:path'
 import crypto from 'node:crypto'
 import sharp from 'sharp'
 
-// Uploads disimpan di /public/uploads/projects/
-// URL publik: /uploads/projects/<file>
-const UPLOAD_ROOT = path.join(process.cwd(), 'public', 'uploads')
+// Uploads disimpan di folder permanen di luar repo jika UPLOAD_DIR tersedia.
+// Production recommendation: UPLOAD_DIR=/www/wwwroot/portfolio-uploads
+// URL publik tetap: /uploads/projects/<file>
+const UPLOAD_ROOT = process.env.UPLOAD_DIR || path.join(process.cwd(), 'public', 'uploads')
 const PROJECTS_DIR = path.join(UPLOAD_ROOT, 'projects')
 const PUBLIC_PREFIX = '/uploads/projects/'
 
