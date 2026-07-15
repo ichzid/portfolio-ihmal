@@ -1404,7 +1404,7 @@ section {
 
 /* ── HERO PROJECT ── */
 .project-hero {
-  padding: 140px 0 60px;
+  padding: 140px 0 24px;
 }
 
 .project-hero-inner {
@@ -1515,6 +1515,7 @@ section {
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
+  margin-top: 18px;
   animation: fadeUp 0.7s 0.25s ease both;
 }
 
@@ -1535,8 +1536,8 @@ section {
   max-width: 1100px;
   margin: 0 auto;
   padding: 0 40px;
-  margin-top: 60px;
-  margin-bottom: 80px;
+  margin-top: 16px;
+  margin-bottom: 64px;
 }
 
 .project-image-container {
@@ -1544,7 +1545,6 @@ section {
   overflow: hidden;
   border: 1px solid var(--border);
   background: var(--surface2);
-  aspect-ratio: 16/9;
   position: relative;
 }
 

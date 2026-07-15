@@ -107,15 +107,15 @@ export default function ProjectCarousel({
                 .carousel-root {
                     position: relative;
                     width: 100%;
-                    height: 100%;
                     overflow: hidden;
                     border-radius: inherit;
                     background: var(--surface2);
                 }
                 .carousel-img {
                     width: 100%;
-                    height: 100%;
-                    object-fit: cover;
+                    height: auto;
+                    max-height: 72vh;
+                    object-fit: contain;
                     display: block;
                     animation: fadeIn 0.25s ease;
                 }

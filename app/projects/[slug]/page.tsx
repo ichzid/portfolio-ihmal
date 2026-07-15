@@ -110,7 +110,7 @@ export default async function ProjectDetail(props: { params: Promise<{ slug: str
                     
                     <h1 className="project-hero-title" style={{ fontSize: '2rem', marginTop: '1rem', marginBottom: '1rem' }}>{project.title}</h1>
 
-                    <p className="project-hero-desc" style={{ marginBottom: (project.demoUrl || project.githubUrl) ? '40px' : '0' }}>{project.description}</p>
+                    <p className="project-hero-desc" style={{ marginBottom: 0 }}>{project.description}</p>
 
                     {(project.demoUrl || project.githubUrl) && (
                         <div className="project-hero-actions">
