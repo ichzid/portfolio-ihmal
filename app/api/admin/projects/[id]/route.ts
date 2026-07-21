@@ -61,9 +61,6 @@ export async function PUT(req: NextRequest, ctx: RouteContext) {
         const oldImages = Array.isArray(existing.imageUrls) ? (existing.imageUrls as string[]) : []
         const newImages = data.imageUrls ?? []
         const removed = oldImages.filter(url => !newImages.includes(url))
-        if (removed.length > 0) {
-            await deleteProjectImages(removed)
-        }
 
         await prisma.project.update({
             where: { id },
@@ -85,6 +82,10 @@ export async function PUT(req: NextRequest, ctx: RouteContext) {
             },
         })
 
+        if (removed.length > 0) {
+            await deleteProjectImages(removed)
+        }
+
         return NextResponse.json({ success: true })
     } catch (err) {
         console.error('Update project error:', err)
@@ -104,9 +105,10 @@ export async function DELETE(req: NextRequest, ctx: RouteContext) {
         if (!existing) return NextResponse.json({ error: 'Not found' }, { status: 404 })
 
         const images = Array.isArray(existing.imageUrls) ? (existing.imageUrls as string[]) : []
-        if (images.length > 0) await deleteProjectImages(images)
 
         await prisma.project.delete({ where: { id } })
+        if (images.length > 0) await deleteProjectImages(images)
+
         return NextResponse.json({ success: true })
     } catch (err) {
         console.error('Delete project error:', err)

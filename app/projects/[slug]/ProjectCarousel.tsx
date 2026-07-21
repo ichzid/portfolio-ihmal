@@ -1,6 +1,37 @@
 'use client'
 
 import { useState } from 'react'
+import ReliableImage from '@/components/ReliableImage'
+
+function DetailImagePlaceholder() {
+    return (
+        <div className="project-image-placeholder">
+            <div className="placeholder-grid"></div>
+            <div className="placeholder-mockup">
+                <div className="pm-header">
+                    <div className="pm-dots">
+                        <div className="pm-dot"></div>
+                        <div className="pm-dot"></div>
+                        <div className="pm-dot"></div>
+                    </div>
+                    <div className="pm-title-bar"></div>
+                </div>
+                <div className="pm-stats">
+                    <div className="pm-stat"><div className="pm-stat-val"></div><div className="pm-stat-lbl"></div></div>
+                    <div className="pm-stat"><div className="pm-stat-val"></div><div className="pm-stat-lbl"></div></div>
+                    <div className="pm-stat"><div className="pm-stat-val"></div><div className="pm-stat-lbl"></div></div>
+                </div>
+                <div className="pm-chart">
+                    <div className="pm-bar" style={{ height: '40%' }}></div>
+                    <div className="pm-bar" style={{ height: '70%' }}></div>
+                    <div className="pm-bar" style={{ height: '50%' }}></div>
+                    <div className="pm-bar" style={{ height: '85%' }}></div>
+                    <div className="pm-bar" style={{ height: '60%' }}></div>
+                </div>
+            </div>
+        </div>
+    )
+}
 
 export default function ProjectCarousel({
     images,
@@ -62,12 +93,13 @@ export default function ProjectCarousel({
 
     return (
         <div className="carousel-root">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <ReliableImage
                 key={currentIndex}
                 src={validImages[currentIndex]}
                 alt={`${title} — foto ${currentIndex + 1}`}
                 className="carousel-img"
+                loading="eager"
+                fallback={<DetailImagePlaceholder />}
             />
 
             {hasMultiple && (

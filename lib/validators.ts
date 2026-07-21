@@ -27,7 +27,12 @@ export const projectSchema = z.object({
     demoVideoUrl: urlOptional,
     githubUrl: urlOptional,
     featured: z.boolean().optional(),
-    imageUrls: z.array(z.string().trim().max(500)).max(20).optional(),
+    imageUrls: z.array(
+        z.string().trim().regex(
+            /^\/uploads\/projects\/[a-z0-9-]+\.webp$/,
+            'URL gambar project tidak valid.'
+        )
+    ).max(20).optional(),
 })
 
 export type ProjectInput = z.infer<typeof projectSchema>

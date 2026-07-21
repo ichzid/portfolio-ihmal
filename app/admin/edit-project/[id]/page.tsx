@@ -5,6 +5,7 @@ import Navbar from '@/components/Navbar'
 import { useRouter } from 'next/navigation'
 import { useToast } from '@/components/Toast'
 import { fetchCsrf } from '@/lib/client-csrf'
+import ReliableImage from '@/components/ReliableImage'
 
 interface ProjectForm {
     title: string
@@ -306,8 +307,11 @@ export default function EditProject(props: { params: Promise<{ id: string }> }) 
                                     <div className="preview-grid">
                                         {imageUrls.map((src, idx) => (
                                             <div key={idx} className="preview-item">
-                                                {/* eslint-disable-next-line @next/next/no-img-element */}
-                                                <img src={src} alt={`Preview ${idx + 1}`} />
+                                                <ReliableImage
+                                                    src={src}
+                                                    alt={`Preview ${idx + 1}`}
+                                                    fallback={<span className="preview-fallback">Gambar tidak tersedia</span>}
+                                                />
                                                 <button type="button" className="preview-remove" onClick={() => handleRemoveImage(idx)}>&times;</button>
                                             </div>
                                         ))}
@@ -362,6 +366,7 @@ export default function EditProject(props: { params: Promise<{ id: string }> }) 
                 .preview-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 8px; margin-top: 4px; }
                 .preview-item { position: relative; aspect-ratio: 1; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
                 .preview-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+                .preview-fallback { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding: 8px; text-align: center; color: var(--text-muted); background: var(--surface2); font-size: 0.72rem; }
                 .preview-remove { position: absolute; top: 4px; right: 4px; width: 22px; height: 22px; background: rgba(0,0,0,0.65); color: #fff; border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; }
                 .preview-remove:hover { background: rgba(239,68,68,0.85); }
                 @media (max-width: 768px) {

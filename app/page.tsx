@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Navbar from '@/components/Navbar'
 import ScrollReveal from '@/components/ScrollReveal'
 import ContactForm from '@/components/ContactForm'
+import ReliableImage from '@/components/ReliableImage'
 import { getFeaturedProjects } from '@/lib/projects'
 import {
     SiNextdotjs, SiReact, SiVuedotjs, SiTypescript, SiTailwindcss,
@@ -167,11 +168,11 @@ export default async function Home() {
                                         <div className="project-visual-bg"></div>
                                         <div className="project-mockup-stack" style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyItems: 'center', width: '100%', height: '100%', background: 'linear-gradient(135deg, var(--surface) 0%, var(--border) 100%)', color: 'var(--text-muted)', overflow: 'hidden' }}>
                                             {project.imageUrls?.[0] ? (
-                                                // eslint-disable-next-line @next/next/no-img-element
-                                                <img
+                                                <ReliableImage
                                                     src={project.imageUrls[0]}
                                                     alt={project.title}
                                                     style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit', display: 'block' }}
+                                                    fallback={<span style={{ margin: 'auto' }}>No Image Available</span>}
                                                 />
                                             ) : (
                                                 <span style={{ margin: 'auto' }}>No Image Available</span>

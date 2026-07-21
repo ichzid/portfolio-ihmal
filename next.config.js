@@ -62,18 +62,18 @@ const nextConfig = {
         ],
       },
       {
-        // Uploads
+        // Uploads memakai nama file unik; jangan cache 404 di shared proxy.
         source: '/uploads/:path*',
         headers: [
-          { key: 'Cache-Control', value: 'public, max-age=2592000, stale-while-revalidate=86400' },
+          { key: 'Cache-Control', value: 'public, max-age=604800, must-revalidate' },
           { key: 'X-Content-Type-Options', value: 'nosniff' },
         ],
       },
       {
-        // Semua halaman: security headers + cache HTML
-        source: '/(.*)',
+        // HTML selalu divalidasi ulang agar perubahan admin langsung terlihat.
+        source: '/((?!_next/static|images|uploads|api).*)',
         headers: [
-          { key: 'Cache-Control', value: 'public, max-age=0, s-maxage=3600, stale-while-revalidate=86400' },
+          { key: 'Cache-Control', value: 'no-store, no-cache, must-revalidate, max-age=0' },
           ...securityHeaders,
         ],
       },

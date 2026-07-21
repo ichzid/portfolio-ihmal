@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import type { Project } from '@/lib/project-types'
 import BackButton from '@/components/BackButton'
+import ReliableImage from '@/components/ReliableImage'
 
 const ITEMS_PER_PAGE = 9
 
@@ -102,11 +103,15 @@ export default function ProjectsClient({ projects }: { projects: Project[] }) {
                             <div key={project.id} className="project-grid-card">
                                 <div className="project-grid-visual">
                                     {project.imageUrls?.[0] ? (
-                                        // eslint-disable-next-line @next/next/no-img-element
-                                        <img
+                                        <ReliableImage
                                             src={project.imageUrls[0]}
                                             alt={project.title}
                                             style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                                            fallback={(
+                                                <div className="project-grid-mockup" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', background: 'linear-gradient(135deg, var(--surface) 0%, var(--border) 100%)', color: 'var(--text-muted)' }}>
+                                                    No Image Available
+                                                </div>
+                                            )}
                                         />
                                     ) : (
                                         <div className="project-grid-mockup" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', background: 'linear-gradient(135deg, var(--surface) 0%, var(--border) 100%)', color: 'var(--text-muted)' }}>
@@ -144,11 +149,11 @@ export default function ProjectsClient({ projects }: { projects: Project[] }) {
                             <div key={project.id} className="project-listrow">
                                 <div className="project-listrow-visual">
                                     {project.imageUrls?.[0] ? (
-                                        // eslint-disable-next-line @next/next/no-img-element
-                                        <img
+                                        <ReliableImage
                                             src={project.imageUrls[0]}
                                             alt={project.title}
                                             style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                                            fallback={<div className="project-listrow-mockup">No Image Available</div>}
                                         />
                                     ) : (
                                         <div className="project-listrow-mockup">No Image Available</div>
